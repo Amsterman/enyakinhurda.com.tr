@@ -1,0 +1,718 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Kadıköy Metals | Borsa ve Hurda Fiyatları Yönetim Paneli</title>
+  <link rel="stylesheet" href="css/style.css">
+  <style>
+    /* Admin Özel Stilleri */
+    .admin-body {
+      background: #06080d;
+      min-height: 100vh;
+      padding-bottom: 50px;
+    }
+    .admin-nav {
+      background: rgba(10, 14, 22, 0.95);
+      border-bottom: 1px solid var(--border-neon);
+      padding: 16px 0;
+    }
+    .admin-nav .container {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .admin-badge {
+      background: rgba(0, 240, 144, 0.15);
+      color: var(--neon-mint);
+      border: 1px solid var(--neon-mint);
+      padding: 3px 10px;
+      border-radius: 99px;
+      font-size: 0.75rem;
+      font-family: monospace;
+      font-weight: 700;
+    }
+
+    /* Giriş PIN Kilidi */
+    .lock-screen {
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: rgba(5, 7, 11, 0.96);
+      backdrop-filter: blur(20px);
+      z-index: 1000;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+    .lock-card {
+      background: var(--bg-surface);
+      border: 1px solid var(--border-neon);
+      border-radius: var(--radius-xl);
+      padding: 40px;
+      max-width: 420px;
+      width: 100%;
+      text-align: center;
+      box-shadow: 0 0 50px rgba(0, 240, 144, 0.15);
+    }
+    .lock-card .pin-input {
+      width: 100%;
+      padding: 14px;
+      font-size: 1.8rem;
+      letter-spacing: 8px;
+      text-align: center;
+      background: #040609;
+      border: 1px solid var(--border-glass);
+      color: var(--neon-mint);
+      border-radius: var(--radius-md);
+      margin: 20px 0;
+      outline: none;
+      font-family: monospace;
+    }
+    .lock-card .pin-input:focus {
+      border-color: var(--neon-mint);
+      box-shadow: 0 0 20px var(--neon-mint-glow);
+    }
+
+    /* Admin Kartları ve Araç Çubuğu */
+    .admin-toolbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 16px;
+      margin: 32px 0 24px;
+      background: var(--bg-surface);
+      padding: 20px 24px;
+      border-radius: var(--radius-lg);
+      border: 1px solid var(--border-glass);
+    }
+    .stat-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: rgba(255, 255, 255, 0.04);
+      padding: 8px 16px;
+      border-radius: var(--radius-full);
+      font-size: 0.85rem;
+      border: 1px solid var(--border-glass);
+    }
+    .stat-pill strong {
+      color: var(--neon-mint);
+      font-family: monospace;
+    }
+
+    /* Tablo Düzenleme */
+    .admin-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.9rem;
+    }
+    .admin-table th {
+      background: #040609;
+      padding: 14px 16px;
+      text-align: left;
+      font-size: 0.78rem;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      color: var(--text-secondary);
+      border-bottom: 1px solid var(--border-glass);
+    }
+    .admin-table td {
+      padding: 14px 16px;
+      border-bottom: 1px solid var(--border-glass);
+      vertical-align: middle;
+    }
+    .admin-table tr:hover td {
+      background: rgba(255, 255, 255, 0.02);
+    }
+    .input-cell {
+      background: #040609;
+      border: 1px solid var(--border-glass);
+      border-radius: 6px;
+      padding: 8px 10px;
+      color: #ffffff;
+      font-family: monospace;
+      font-size: 0.95rem;
+      width: 90px;
+      text-align: right;
+      outline: none;
+      transition: border-color 0.2s;
+    }
+    .input-cell:focus {
+      border-color: var(--neon-mint);
+      background: #0a0e14;
+    }
+    .input-cell-name {
+      width: 180px;
+      text-align: left;
+    }
+    .action-btn {
+      padding: 6px 12px;
+      font-size: 0.78rem;
+      border-radius: 6px;
+      cursor: pointer;
+      border: none;
+      transition: all 0.2s;
+    }
+    .btn-danger {
+      background: rgba(239, 68, 68, 0.15);
+      color: #ef4444;
+      border: 1px solid rgba(239, 68, 68, 0.3);
+    }
+    .btn-danger:hover {
+      background: #ef4444;
+      color: #ffffff;
+    }
+
+    /* Modal */
+    .modal-overlay {
+      display: none;
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: rgba(0, 0, 0, 0.8);
+      backdrop-filter: blur(12px);
+      z-index: 1000;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+    .modal-overlay.open {
+      display: flex;
+    }
+    .modal-box {
+      background: var(--bg-surface);
+      border: 1px solid var(--border-neon);
+      border-radius: var(--radius-lg);
+      padding: 32px;
+      max-width: 500px;
+      width: 100%;
+    }
+
+    /* Bildirim Toast */
+    .toast-msg {
+      position: fixed;
+      bottom: 24px;
+      right: 24px;
+      background: var(--bg-surface);
+      border: 1px solid var(--border-neon);
+      box-shadow: 0 10px 30px rgba(0, 240, 144, 0.25);
+      color: #ffffff;
+      padding: 14px 24px;
+      border-radius: var(--radius-md);
+      z-index: 2000;
+      transform: translateY(100px);
+      opacity: 0;
+      transition: all 0.3s ease;
+      font-weight: 600;
+    }
+    .toast-msg.show {
+      transform: translateY(0);
+      opacity: 1;
+    }
+  </style>
+</head>
+<body class="admin-body">
+
+  <!-- PIN GİRİŞ EKRANI -->
+  <div class="lock-screen" id="lock-screen">
+    <div class="lock-card">
+      <div style="font-size: 3rem; margin-bottom: 10px;">🔐</div>
+      <h2 style="color: #ffffff; font-size: 1.4rem; margin-bottom: 6px;">Yönetici Güvenlik Girişi</h2>
+      <p style="color: var(--text-secondary); font-size: 0.85rem;">Fiyat yönetim paneline erişmek için PIN kodunuzu giriniz.</p>
+      <input type="password" class="pin-input" id="pin-input" maxlength="6" placeholder="••••" autofocus>
+      <button class="btn btn-neon" style="width: 100%;" id="btn-unlock">Giriş Yap</button>
+      <p style="color: var(--text-muted); font-size: 0.75rem; margin-top: 14px;">Varsayılan PIN: <strong>1234</strong> (Ayarlardan değiştirilebilir)</p>
+    </div>
+  </div>
+
+  <!-- ADMIN NAVBAR -->
+  <header class="admin-nav">
+    <div class="container">
+      <div style="display: flex; align-items: center; gap: 14px;">
+        <a href="index.html" class="brand-logo" style="font-size: 1.15rem;">
+          <div class="logo-icon" style="width: 32px; height: 32px; font-size: 1rem;">⚡</div>
+          <div>Kadıköy<span class="text-neon">Metals</span></div>
+        </a>
+        <span class="admin-badge">BİLGİSAYAR & FİYAT KONTROL MERKEZİ</span>
+      </div>
+      <div style="display: flex; gap: 10px; align-items: center;">
+        <a href="index.html" target="_blank" class="btn btn-glass" style="padding: 8px 14px; font-size: 0.85rem;">🌐 Siteyi Gör (Önizleme)</a>
+        <button class="btn btn-glass" id="btn-lock-again" style="padding: 8px 14px; font-size: 0.85rem;">🔒 Çıkış</button>
+      </div>
+    </div>
+  </header>
+
+  <main class="container" style="padding-top: 20px;">
+    <!-- TOOLBAR & İSTATİSTİKLER -->
+    <div class="admin-toolbar">
+      <div style="display: flex; gap: 14px; flex-wrap: wrap;">
+        <div class="stat-pill">Son Güncelleme: <strong id="stat-updated">2026-10-13 10:45</strong></div>
+        <div class="stat-pill">Toplam Metal: <strong id="stat-count">14 Kalem</strong></div>
+        <div class="stat-pill">Kayıt Modu: <strong style="color: #34d399;">Canlı LocalStorage + JSON Export</strong></div>
+      </div>
+      <div style="display: flex; gap: 10px; flex-wrap: wrap;">
+        <button class="btn btn-neon" id="btn-save-local">💾 Değişiklikleri Kaydet (Canlı)</button>
+        <button class="btn btn-copper" id="btn-export-json">📥 prices.json İndir</button>
+        <button class="btn btn-glass" id="btn-batch-modal">⚡ Toplu Zam/İndirim</button>
+        <button class="btn btn-glass" id="btn-add-metal">+ Yeni Metal Ekle</button>
+      </div>
+    </div>
+
+    <!-- HIZLI AÇIKLAMA NOTU -->
+    <div class="callout-box" style="margin-bottom: 24px;">
+      💡 <strong>Nasıl Çalışır?</strong> Bu panelden fiyatları doğrudan kutucukların içine yazarak değiştirebilirsiniz. <strong>"Değişiklikleri Kaydet"</strong> butonuna bastığınızda tarayıcınızdaki canlı site, borsa kayan bandı ve hesaplayıcı anında yeni fiyatlara geçer. Tüm internet ziyaretçilerine yansıtmak için <strong>"prices.json İndir"</strong> butonuna tıklayıp inen dosyayı GitHub reponuzun <code>data/</code> klasörüne yüklemeniz yeterlidir.
+    </div>
+
+    <!-- FİYAT YÖNETİM TABLOSU -->
+    <div class="table-container" style="margin-bottom: 30px;">
+      <table class="admin-table">
+        <thead>
+          <tr>
+            <th>Metal / Malzeme Adı</th>
+            <th>Kategori</th>
+            <th>Taban Fiyat (TL)</th>
+            <th>Tavan Fiyat (TL)</th>
+            <th>Hesaplayıcı Kuru</th>
+            <th>Birim</th>
+            <th>Borsa Trendi</th>
+            <th>Durum</th>
+            <th>İşlem</th>
+          </tr>
+        </thead>
+        <tbody id="metals-table-body">
+          <!-- Dinamik Satırlar Buraya Gelir -->
+        </tbody>
+      </table>
+    </div>
+
+    <!-- GITHUB ENTEGRASYON VE GELİŞMİŞ AYARLAR PANELİ -->
+    <div class="glass-card" style="margin-top: 30px;">
+      <h3 style="color: #ffffff; margin-bottom: 12px; font-size: 1.2rem;">🚀 İleri Düzey: GitHub Pages Otomatik Senkronizasyon (Opsiyonel)</h3>
+      <p style="color: var(--text-secondary); font-size: 0.9rem; margin-bottom: 20px;">
+        Eğer terminal veya GitHub arayüzü ile uğraşmadan tek tıkla canlıya almak isterseniz, GitHub Personal Access Token bilginizi girerek fiyatları doğrudan GitHub Pages deponuza kaydedebilirsiniz:
+      </p>
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 16px; margin-bottom: 20px;">
+        <div class="form-box">
+          <label>GitHub Kullanıcı Adı / Repo Sahibi:</label>
+          <input type="text" id="gh-owner" placeholder="ornek: ahmet123">
+        </div>
+        <div class="form-box">
+          <label>GitHub Depo (Repo) Adı:</label>
+          <input type="text" id="gh-repo" placeholder="ornek: kadikoy-hurdaci">
+        </div>
+        <div class="form-box">
+          <label>GitHub Personal Token (Fine-Grained):</label>
+          <input type="password" id="gh-token" placeholder="ghp_xxxxxxxxxxxx">
+        </div>
+      </div>
+      <button class="btn btn-neon" id="btn-gh-push">🚀 Fiyatları Doğrudan GitHub'a Push Et</button>
+      <button class="btn btn-glass" id="btn-reset-defaults" style="margin-left: 10px;">⚠️ Varsayılan Borsa Fiyatlarına Sıfırla</button>
+    </div>
+  </main>
+
+  <!-- TOPLU FİYAT GÜNCELLEME MODALI -->
+  <div class="modal-overlay" id="batch-modal">
+    <div class="modal-box">
+      <h3 style="color: #ffffff; margin-bottom: 14px;">⚡ Toplu Fiyat Güncelleme Aracı</h3>
+      <p style="color: var(--text-secondary); font-size: 0.88rem; margin-bottom: 20px;">
+        Tüm metallere veya belirli bir kategoriye yüzde bazlı ya da sabit tutarda zam/indirim uygulayın:
+      </p>
+      <div class="form-box">
+        <label>Hedef Kategori:</label>
+        <select id="batch-category">
+          <option value="all">Tüm Metaller ve Hurda Grupları</option>
+          <option value="bakir">Sadece Bakır Grubu</option>
+          <option value="kablo">Sadece Kablo Çeşitleri</option>
+          <option value="demir">Sadece Demir ve Sac</option>
+          <option value="aliminyum">Sadece Alüminyum</option>
+          <option value="sari">Sadece Sarı Pirinç</option>
+        </select>
+      </div>
+      <div class="form-box">
+        <label>İşlem Türü:</label>
+        <select id="batch-type">
+          <option value="percent-increase">Yüzde (%) Artır (Zam)</option>
+          <option value="percent-decrease">Yüzde (%) Düşür (İndirim)</option>
+          <option value="flat-increase">Sabit TL Ekle (+)</option>
+          <option value="flat-decrease">Sabit TL Çıkar (-)</option>
+        </select>
+      </div>
+      <div class="form-box">
+        <label>Uygulanacak Değer (Örn: 5 veya 10):</label>
+        <input type="number" id="batch-val" value="5" min="0.1" step="0.5">
+      </div>
+      <div style="display: flex; gap: 10px; justify-content: flex-end; margin-top: 24px;">
+        <button class="btn btn-glass" id="btn-batch-cancel">İptal</button>
+        <button class="btn btn-neon" id="btn-batch-apply">Uygula ve Güncelle</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- YENİ METAL EKLEME MODALI -->
+  <div class="modal-overlay" id="add-modal">
+    <div class="modal-box">
+      <h3 style="color: #ffffff; margin-bottom: 14px;">+ Yeni Metal / Malzeme Ekle</h3>
+      <div class="form-box">
+        <label>Malzeme Adı:</label>
+        <input type="text" id="new-name" placeholder="Örn: Hurda Kurşun Levha">
+      </div>
+      <div class="form-box">
+        <label>Kategori:</label>
+        <select id="new-category">
+          <option value="bakir">Bakır</option>
+          <option value="kablo">Kablo</option>
+          <option value="demir">Demir</option>
+          <option value="aliminyum">Alüminyum</option>
+          <option value="sari">Sarı Pirinç</option>
+          <option value="cihaz">Cihaz / Beyaz Eşya</option>
+          <option value="diger">Diğer</option>
+        </select>
+      </div>
+      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px;">
+        <div class="form-box">
+          <label>Taban Fiyat (TL):</label>
+          <input type="number" id="new-min" value="100">
+        </div>
+        <div class="form-box">
+          <label>Tavan Fiyat (TL):</label>
+          <input type="number" id="new-max" value="115">
+        </div>
+      </div>
+      <div class="form-box">
+        <label>Birim:</label>
+        <select id="new-unit">
+          <option value="TL/Kg">TL/Kg</option>
+          <option value="TL/Adet">TL/Adet</option>
+          <option value="TL/Ton">TL/Ton</option>
+        </select>
+      </div>
+      <div style="display: flex; gap: 10px; justify-content: flex-end; margin-top: 24px;">
+        <button class="btn btn-glass" id="btn-add-cancel">Vazgeç</button>
+        <button class="btn btn-neon" id="btn-add-save">Kaydet ve Listeye Ekle</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- TOAST BİLDİRİMİ -->
+  <div class="toast-msg" id="toast">Fiyatlar başarıyla güncellendi!</div>
+
+  <script>
+    // ADMIN PANEL İŞ MANTIĞI
+    const PIN_KEY = 'kadikoy_admin_pin';
+    const DEFAULT_PIN = '1234';
+    let currentData = null;
+
+    // PIN Giriş Kontrolü
+    const lockScreen = document.getElementById('lock-screen');
+    const pinInput = document.getElementById('pin-input');
+    const btnUnlock = document.getElementById('btn-unlock');
+
+    function checkAuth() {
+      const savedPin = localStorage.getItem(PIN_KEY) || DEFAULT_PIN;
+      if (sessionStorage.getItem('kadikoy_admin_auth') === 'true') {
+        lockScreen.style.display = 'none';
+        loadAdminData();
+      } else {
+        lockScreen.style.display = 'flex';
+      }
+    }
+
+    btnUnlock.addEventListener('click', () => {
+      const savedPin = localStorage.getItem(PIN_KEY) || DEFAULT_PIN;
+      if (pinInput.value === savedPin) {
+        sessionStorage.setItem('kadikoy_admin_auth', 'true');
+        lockScreen.style.display = 'none';
+        loadAdminData();
+        showToast('Giriş başarılı! Hoş geldiniz.');
+      } else {
+        alert('Hatalı PIN kodu! Lütfen tekrar deneyiniz.');
+        pinInput.value = '';
+        pinInput.focus();
+      }
+    });
+
+    pinInput.addEventListener('keypress', (e) => {
+      if (e.key === 'Enter') btnUnlock.click();
+    });
+
+    document.getElementById('btn-lock-again').addEventListener('click', () => {
+      sessionStorage.removeItem('kadikoy_admin_auth');
+      location.reload();
+    });
+
+    // Veri Yükleme
+    async function loadAdminData() {
+      // Önce localStorage
+      const local = localStorage.getItem('kadikoy_scrap_prices');
+      if (local) {
+        try {
+          currentData = JSON.parse(local);
+          renderTableRows();
+          return;
+        } catch(e) {}
+      }
+
+      // Dosyadan oku
+      try {
+        const res = await fetch('data/prices.json');
+        if (res.ok) {
+          currentData = await res.json();
+          renderTableRows();
+        }
+      } catch (err) {
+        console.error('Veri yüklenemedi:', err);
+      }
+    }
+
+    function renderTableRows() {
+      if (!currentData || !currentData.metals) return;
+      const tbody = document.getElementById('metals-table-body');
+      tbody.innerHTML = '';
+
+      document.getElementById('stat-updated').textContent = currentData.last_updated || new Date().toLocaleString('tr-TR');
+      document.getElementById('stat-count').textContent = `${currentData.metals.length} Kalem`;
+
+      currentData.metals.forEach((m, idx) => {
+        const tr = document.createElement('tr');
+        tr.innerHTML = `
+          <td>
+            <input type="text" class="input-cell input-cell-name" value="${m.name}" onchange="updateField(${idx}, 'name', this.value)">
+          </td>
+          <td>
+            <span style="font-size:0.75rem; color:var(--text-muted); font-family:monospace;">${m.category.toUpperCase()}</span>
+          </td>
+          <td>
+            <input type="number" step="0.5" class="input-cell" value="${m.min_price}" onchange="updateField(${idx}, 'min_price', parseFloat(this.value))">
+          </td>
+          <td>
+            <input type="number" step="0.5" class="input-cell" value="${m.max_price}" onchange="updateField(${idx}, 'max_price', parseFloat(this.value))">
+          </td>
+          <td>
+            <input type="number" step="0.5" class="input-cell" value="${m.calc_price}" onchange="updateField(${idx}, 'calc_price', parseFloat(this.value))">
+          </td>
+          <td>
+            <span style="font-size:0.8rem; color:var(--neon-mint);">${m.unit}</span>
+          </td>
+          <td>
+            <select class="input-cell" style="width:100px; text-align:left;" onchange="updateField(${idx}, 'trend', this.value)">
+              <option value="▲ +%1.4" ${m.trend === '▲ +%1.4' ? 'selected' : ''}>▲ Yükseliş</option>
+              <option value="▲ +%0.8" ${m.trend === '▲ +%0.8' ? 'selected' : ''}>▲ Hafif Artış</option>
+              <option value="Stabil" ${m.trend === 'Stabil' ? 'selected' : ''}>● Stabil</option>
+              <option value="▼ -%0.5" ${m.trend === '▼ -%0.5' ? 'selected' : ''}>▼ Düşüş</option>
+              <option value="Özel Fiyat" ${m.trend === 'Özel Fiyat' ? 'selected' : ''}>★ Özel</option>
+            </select>
+          </td>
+          <td>
+            <input type="checkbox" ${m.active ? 'checked' : ''} onchange="updateField(${idx}, 'active', this.checked)">
+          </td>
+          <td>
+            <button class="action-btn btn-danger" onclick="deleteMetal(${idx})">Sil</button>
+          </td>
+        `;
+        tbody.appendChild(tr);
+      });
+    }
+
+    window.updateField = function(index, field, value) {
+      if (currentData && currentData.metals[index]) {
+        currentData.metals[index][field] = value;
+      }
+    };
+
+    window.deleteMetal = function(index) {
+      if (confirm('Bu hurda kalemini listeden silmek istediğinize emin misiniz?')) {
+        currentData.metals.splice(index, 1);
+        renderTableRows();
+        saveToLocalStorage(false);
+      }
+    };
+
+    // Kaydetme Fonksiyonu
+    function saveToLocalStorage(showFeedback = true) {
+      if (!currentData) return;
+      currentData.last_updated = new Date().toLocaleString('tr-TR', { dateStyle: 'short', timeStyle: 'short' });
+      localStorage.setItem('kadikoy_scrap_prices', JSON.stringify(currentData));
+      renderTableRows();
+      if (showFeedback) {
+        showToast('Fiyatlar kaydedildi! Canlı sitede anında güncellendi.');
+      }
+    }
+
+    document.getElementById('btn-save-local').addEventListener('click', () => {
+      saveToLocalStorage(true);
+    });
+
+    // JSON İndirme
+    document.getElementById('btn-export-json').addEventListener('click', () => {
+      saveToLocalStorage(false);
+      const jsonStr = JSON.stringify(currentData, null, 2);
+      const blob = new Blob([jsonStr], { type: 'application/json' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = 'prices.json';
+      a.click();
+      URL.revokeObjectURL(url);
+      showToast('prices.json başarıyla indirildi!');
+    });
+
+    // Toplu Zam Modalı
+    const batchModal = document.getElementById('batch-modal');
+    document.getElementById('btn-batch-modal').addEventListener('click', () => batchModal.classList.add('open'));
+    document.getElementById('btn-batch-cancel').addEventListener('click', () => batchModal.classList.remove('open'));
+
+    document.getElementById('btn-batch-apply').addEventListener('click', () => {
+      const cat = document.getElementById('batch-category').value;
+      const type = document.getElementById('batch-type').value;
+      const val = parseFloat(document.getElementById('batch-val').value) || 0;
+
+      if (!currentData) return;
+
+      currentData.metals.forEach(m => {
+        if (cat === 'all' || m.category === cat) {
+          if (type === 'percent-increase') {
+            m.min_price = Math.round(m.min_price * (1 + val / 100) * 10) / 10;
+            m.max_price = Math.round(m.max_price * (1 + val / 100) * 10) / 10;
+            m.calc_price = Math.round(m.calc_price * (1 + val / 100) * 10) / 10;
+            m.trend = '▲ +%' + val;
+          } else if (type === 'percent-decrease') {
+            m.min_price = Math.round(m.min_price * (1 - val / 100) * 10) / 10;
+            m.max_price = Math.round(m.max_price * (1 - val / 100) * 10) / 10;
+            m.calc_price = Math.round(m.calc_price * (1 - val / 100) * 10) / 10;
+            m.trend = '▼ -%' + val;
+          } else if (type === 'flat-increase') {
+            m.min_price = Math.round((m.min_price + val) * 10) / 10;
+            m.max_price = Math.round((m.max_price + val) * 10) / 10;
+            m.calc_price = Math.round((m.calc_price + val) * 10) / 10;
+            m.trend = '▲ +' + val + '₺';
+          } else if (type === 'flat-decrease') {
+            m.min_price = Math.max(1, Math.round((m.min_price - val) * 10) / 10);
+            m.max_price = Math.max(1, Math.round((m.max_price - val) * 10) / 10);
+            m.calc_price = Math.max(1, Math.round((m.calc_price - val) * 10) / 10);
+            m.trend = '▼ -' + val + '₺';
+          }
+        }
+      });
+
+      batchModal.classList.remove('open');
+      saveToLocalStorage(true);
+    });
+
+    // Yeni Metal Ekleme Modalı
+    const addModal = document.getElementById('add-modal');
+    document.getElementById('btn-add-metal').addEventListener('click', () => addModal.classList.add('open'));
+    document.getElementById('btn-add-cancel').addEventListener('click', () => addModal.classList.remove('open'));
+
+    document.getElementById('btn-add-save').addEventListener('click', () => {
+      const name = document.getElementById('new-name').value.trim();
+      const cat = document.getElementById('new-category').value;
+      const min = parseFloat(document.getElementById('new-min').value) || 0;
+      const max = parseFloat(document.getElementById('new-max').value) || 0;
+      const unit = document.getElementById('new-unit').value;
+
+      if (!name) {
+        alert('Lütfen metal adını yazınız.');
+        return;
+      }
+
+      const newId = name.toLowerCase().replace(/[^a-z0-9]/g, '-');
+      currentData.metals.push({
+        id: newId,
+        name: name,
+        category: cat,
+        spec: 'Standart geri dönüşüm kalitesi',
+        min_price: min,
+        max_price: max,
+        calc_price: Math.round((min + max) / 2),
+        unit: unit,
+        trend: 'Stabil',
+        active: true
+      });
+
+      addModal.classList.remove('open');
+      document.getElementById('new-name').value = '';
+      saveToLocalStorage(true);
+    });
+
+    // GitHub Push Entegrasyonu
+    document.getElementById('btn-gh-push').addEventListener('click', async () => {
+      const owner = document.getElementById('gh-owner').value.trim();
+      const repo = document.getElementById('gh-repo').value.trim();
+      const token = document.getElementById('gh-token').value.trim();
+
+      if (!owner || !repo || !token) {
+        alert('Lütfen GitHub kullanıcı adı, repo adı ve token bilgilerinizi eksiksiz doldurunuz.');
+        return;
+      }
+
+      saveToLocalStorage(false);
+      const filePath = 'data/prices.json';
+      const apiUrl = `https://api.github.com/repos/${owner}/${repo}/contents/${filePath}`;
+
+      try {
+        // Önce mevcut dosyanın SHA'sını al
+        let sha = null;
+        const getRes = await fetch(apiUrl, {
+          headers: {
+            'Authorization': `Bearer ${token}`,
+            'Accept': 'application/vnd.github.v3+json'
+          }
+        });
+        if (getRes.ok) {
+          const getJson = await getRes.json();
+          sha = getJson.sha;
+        }
+
+        // Base64 kodla
+        const contentStr = JSON.stringify(currentData, null, 2);
+        const encoded = btoa(unescape(encodeURIComponent(contentStr)));
+
+        const bodyPayload = {
+          message: 'Admin Panel: Fiyatlar güncellendi (' + new Date().toLocaleString('tr-TR') + ')',
+          content: encoded,
+          branch: 'main'
+        };
+        if (sha) bodyPayload.sha = sha;
+
+        const putRes = await fetch(apiUrl, {
+          method: 'PUT',
+          headers: {
+            'Authorization': `Bearer ${token}`,
+            'Content-Type': 'application/json',
+            'Accept': 'application/vnd.github.v3+json'
+          },
+          body: JSON.stringify(bodyPayload)
+        });
+
+        if (putRes.ok) {
+          showToast('🚀 Fiyatlar GitHub Pages deponuza doğrudan aktarıldı!');
+        } else {
+          const err = await putRes.json();
+          alert('GitHub API Hatası: ' + (err.message || 'Yetki veya depo hatası'));
+        }
+      } catch (err) {
+        alert('Bağlantı hatası: ' + err.message);
+      }
+    });
+
+    // Varsayılanlara Sıfırla
+    document.getElementById('btn-reset-defaults').addEventListener('click', () => {
+      if (confirm('Tüm fiyatları fabrika ayarlarına sıfırlamak istediğinize emin misiniz?')) {
+        localStorage.removeItem('kadikoy_scrap_prices');
+        location.reload();
+      }
+    });
+
+    function showToast(msg) {
+      const toast = document.getElementById('toast');
+      toast.textContent = msg;
+      toast.classList.add('show');
+      setTimeout(() => toast.classList.remove('show'), 3500);
+    }
+
+    // Başlat
+    checkAuth();
+  </script>
+</body>
+</html>

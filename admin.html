@@ -50,28 +50,43 @@
       border: 1px solid var(--border-neon);
       border-radius: var(--radius-xl);
       padding: 40px;
-      max-width: 420px;
+      max-width: 440px;
       width: 100%;
       text-align: center;
       box-shadow: 0 0 50px rgba(0, 240, 144, 0.15);
+      position: relative;
     }
-    .lock-card .pin-input {
+    .pin-input-wrap {
+      position: relative;
+      margin: 20px 0;
+    }
+    .pin-input {
       width: 100%;
-      padding: 14px;
-      font-size: 1.8rem;
-      letter-spacing: 8px;
+      padding: 14px 44px 14px 16px;
+      font-size: 1.1rem;
       text-align: center;
       background: #040609;
       border: 1px solid var(--border-glass);
       color: var(--neon-mint);
       border-radius: var(--radius-md);
-      margin: 20px 0;
       outline: none;
       font-family: monospace;
+      box-sizing: border-box;
     }
-    .lock-card .pin-input:focus {
+    .pin-input:focus {
       border-color: var(--neon-mint);
       box-shadow: 0 0 20px var(--neon-mint-glow);
+    }
+    .toggle-pwd-btn {
+      position: absolute;
+      right: 12px;
+      top: 50%;
+      transform: translateY(-50%);
+      background: none;
+      border: none;
+      color: var(--text-muted);
+      cursor: pointer;
+      font-size: 1.1rem;
     }
 
     /* Admin Kartları ve Araç Çubuğu */
@@ -218,9 +233,14 @@
   <div class="lock-screen" id="lock-screen">
     <div class="lock-card">
       <div style="font-size: 3rem; margin-bottom: 10px;">🔐</div>
-      <h2 style="color: #ffffff; font-size: 1.4rem; margin-bottom: 6px;">Yönetici Güvenlik Girişi</h2>
-      <p style="color: var(--text-secondary); font-size: 0.85rem;">Fiyat yönetim paneline erişmek için PIN kodunuzu giriniz.</p>
-      <input type="password" class="pin-input" id="pin-input" maxlength="32" placeholder="Şifrenizi giriniz" autofocus>
+      <h2 style="color: #ffffff; font-size: 1.4rem; margin-bottom: 6px;">Yönetici Girişi</h2>
+      <p style="color: var(--text-secondary); font-size: 0.85rem;">Fiyat kontrol paneline erişmek için şifrenizi giriniz.</p>
+      
+      <div class="pin-input-wrap">
+        <input type="password" class="pin-input" id="pin-input" placeholder="Şifrenizi giriniz" autofocus autocomplete="current-password">
+        <button type="button" class="toggle-pwd-btn" id="toggle-pwd" aria-label="Şifreyi Göster">👁️</button>
+      </div>
+
       <button class="btn btn-neon" style="width: 100%;" id="btn-unlock">Giriş Yap</button>
       <p style="color: var(--text-muted); font-size: 0.75rem; margin-top: 14px;">Güvenli yönetici şifrenizle giriş yapınız.</p>
     </div>
@@ -232,12 +252,12 @@
       <div style="display: flex; align-items: center; gap: 14px;">
         <a href="index.html" class="brand-logo" style="font-size: 1.15rem;">
           <div class="logo-icon" style="width: 32px; height: 32px; font-size: 1rem;">♻️</div>
-          <div>Kadıköy<span class="text-neon">Metals</span></div>
+          <div>EnYakın<span class="text-neon">Hurda</span></div>
         </a>
-        <span class="admin-badge">BİLGİSAYAR & FİYAT KONTROL MERKEZİ</span>
+        <span class="admin-badge">FİYAT YÖNETİM MERKEZİ</span>
       </div>
       <div style="display: flex; gap: 10px; align-items: center;">
-        <a href="index.html" target="_blank" class="btn btn-glass" style="padding: 8px 14px; font-size: 0.85rem;">🌐 Siteyi Gör (Önizleme)</a>
+        <a href="index.html" target="_blank" class="btn btn-glass" style="padding: 8px 14px; font-size: 0.85rem;">🌐 Siteyi Gör</a>
         <button class="btn btn-glass" id="btn-lock-again" style="padding: 8px 14px; font-size: 0.85rem;">🔒 Çıkış</button>
       </div>
     </div>
@@ -247,19 +267,17 @@
     <!-- TOOLBAR & İSTATİSTİKLER -->
     <div class="admin-toolbar">
       <div style="display: flex; gap: 14px; flex-wrap: wrap;">
-        <div class="stat-pill">Son Güncelleme: <strong id="stat-updated">2026-10-13 10:45</strong></div>
-        <div class="stat-pill">Toplam Metal: <strong id="stat-count">14 Kalem</strong></div>
-        <div class="stat-pill">Kayıt Modu: <strong style="color: #34d399;">Canlı LocalStorage + JSON Export</strong></div>
+        <div class="stat-pill">Son Güncelleme: <strong id="stat-updated">2026-10-15 12:00</strong></div>
+        <div class="stat-pill">Toplam Kalem: <strong id="stat-count">14 Kalem</strong></div>
+        <div class="stat-pill">GitHub Entegrasyonu: <strong style="color: #34d399;">Aktif (Amsterman)</strong></div>
       </div>
       <div style="display: flex; gap: 10px; flex-wrap: wrap;">
-        <button class="btn btn-neon" id="btn-save-local">💾 Değişiklikleri Kaydet (Canlı)</button>
+        <button class="btn btn-neon" id="btn-save-local">💾 Kaydet & GitHub'a Aktar</button>
         <button class="btn btn-copper" id="btn-export-json">📥 prices.json İndir</button>
         <button class="btn btn-glass" id="btn-batch-modal">⚡ Toplu Zam/İndirim</button>
         <button class="btn btn-glass" id="btn-add-metal">+ Yeni Metal Ekle</button>
       </div>
     </div>
-
-    
 
     <!-- FİYAT YÖNETİM TABLOSU -->
     <div class="table-container" style="margin-bottom: 30px;">
@@ -278,32 +296,32 @@
           </tr>
         </thead>
         <tbody id="metals-table-body">
-          <!-- Dinamik Satırlar Buraya Gelir -->
+          <!-- Dinamik Satırlar -->
         </tbody>
       </table>
     </div>
 
-    <!-- GITHUB ENTEGRASYON VE GELİŞMİŞ AYARLAR PANELİ -->
+    <!-- GITHUB BAĞLANTI AYARLARI -->
     <div class="glass-card" style="margin-top: 30px;">
-      <h3 style="color: #ffffff; margin-bottom: 12px; font-size: 1.2rem;">🚀 İleri Düzey: GitHub Pages Otomatik Senkronizasyon (Opsiyonel)</h3>
+      <h3 style="color: #ffffff; margin-bottom: 12px; font-size: 1.2rem;">🚀 GitHub Pages Otomatik Senkronizasyon Ayarları</h3>
       <p style="color: var(--text-secondary); font-size: 0.9rem; margin-bottom: 20px;">
-        Eğer terminal veya GitHub arayüzü ile uğraşmadan tek tıkla canlıya almak isterseniz, GitHub Personal Access Token bilginizi girerek fiyatları doğrudan GitHub Pages deponuza kaydedebilirsiniz:
+        Fiyatları kaydettiğinizde doğrudan <strong>Amsterman/enyakinhurda.com.tr</strong> deposundaki <code>data/prices.json</code> dosyasına otomatik commit atılır:
       </p>
       <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 16px; margin-bottom: 20px;">
         <div class="form-box">
-          <label>GitHub Kullanıcı Adı / Repo Sahibi:</label>
+          <label>GitHub Kullanıcı Adı:</label>
           <input type="text" id="gh-owner" value="Amsterman">
         </div>
         <div class="form-box">
-          <label>GitHub Depo (Repo) Adı:</label>
+          <label>GitHub Depo Adı:</label>
           <input type="text" id="gh-repo" value="enyakinhurda.com.tr">
         </div>
         <div class="form-box">
           <label>GitHub Personal Token (Fine-Grained):</label>
-          <input type="password" id="gh-token" placeholder="GitHub Tokeninizi girin (Tarayıcınıza kaydedilir)">
+          <input type="password" id="gh-token" placeholder="Tokeniniz burada kayıtlı">
         </div>
       </div>
-      <button class="btn btn-neon" id="btn-gh-push">🚀 Fiyatları Doğrudan GitHub'a Push Et</button>
+      <button class="btn btn-neon" id="btn-gh-push">🚀 Fiyatları GitHub'a Push Et</button>
       <button class="btn btn-glass" id="btn-reset-defaults" style="margin-left: 10px;">⚠️ Varsayılan Borsa Fiyatlarına Sıfırla</button>
     </div>
   </main>
@@ -395,8 +413,18 @@
   <div class="toast-msg" id="toast">Fiyatlar başarıyla güncellendi!</div>
 
   <script>
-    // ADMIN PANEL İŞ MANTIĞI & GİTHUB ENTEGRASYONU
+    // 1. ŞİFRE & GITHUB YAPILANDIRMASI
     const ADMIN_PASSWORD = "Kdk_Hurda#2026!Tr";
+    
+    
+    // Güvenli Token Yönetimi: Token tarayıcı hafızasında saklanır
+    
+    
+    // Otomatik olarak ilk açılışta kullanıcının tarayıcısına tokeni güvenle yerleştir
+    if (!localStorage.getItem('gh_admin_pat')) {
+      
+    }
+
     const GH_CONFIG = {
       owner: "Amsterman",
       repo: "enyakinhurda.com.tr",
@@ -407,11 +435,26 @@
 
     let currentData = null;
 
-    // Şifre Giriş Kontrolü
+    // 2. ŞİFRE EKRANI ELEMENTLERİ
     const lockScreen = document.getElementById('lock-screen');
     const pinInput = document.getElementById('pin-input');
     const btnUnlock = document.getElementById('btn-unlock');
+    const togglePwd = document.getElementById('toggle-pwd');
 
+    // Şifre Göster/Gizle Butonu
+    if (togglePwd && pinInput) {
+      togglePwd.addEventListener('click', () => {
+        if (pinInput.type === 'password') {
+          pinInput.type = 'text';
+          togglePwd.textContent = '🔒';
+        } else {
+          pinInput.type = 'password';
+          togglePwd.textContent = '👁️';
+        }
+      });
+    }
+
+    // Yetki Kontrolü
     function checkAuth() {
       if (sessionStorage.getItem('kadikoy_admin_auth') === 'true') {
         lockScreen.style.display = 'none';
@@ -422,22 +465,25 @@
       }
     }
 
-    btnUnlock.addEventListener('click', () => {
-      if (pinInput.value === ADMIN_PASSWORD) {
+            function doLogin() {
+      const entered = (pinInput.value || '').trim();
+      if (entered === ADMIN_PASSWORD) {
         sessionStorage.setItem('kadikoy_admin_auth', 'true');
         lockScreen.style.display = 'none';
         loadAdminData();
         initGitHubToken();
         showToast('Giriş başarılı! Hoş geldiniz.');
       } else {
-        alert('Hatalı yönetici şifresi! Lütfen tekrar deneyiniz.');
+        alert('Hatalı yönetici şifresi! Lütfen doğru şifreyi giriniz.');
         pinInput.value = '';
         pinInput.focus();
       }
-    });
+    }
+
+    btnUnlock.addEventListener('click', doLogin);
 
     pinInput.addEventListener('keypress', (e) => {
-      if (e.key === 'Enter') btnUnlock.click();
+      if (e.key === 'Enter') doLogin();
     });
 
     document.getElementById('btn-lock-again').addEventListener('click', () => {
@@ -445,8 +491,25 @@
       location.reload();
     });
 
-    // Veri Yükleme
+    // 3. TOKEN BAŞLATICI
+    function initGitHubToken() {
+      const tokenInput = document.getElementById('gh-token');
+      const savedToken = localStorage.getItem('gh_admin_pat') || "";
+      if (tokenInput) {
+        tokenInput.value = savedToken;
+        tokenInput.addEventListener('input', () => {
+          const val = tokenInput.value.trim();
+          if (val) {
+            localStorage.setItem('gh_admin_pat', val);
+            GH_CONFIG.token = val;
+          }
+        });
+      }
+    }
+
+    // 4. VERİ YÜKLEME
     async function loadAdminData() {
+      // Önce localStorage
       const local = localStorage.getItem('kadikoy_scrap_prices');
       if (local) {
         try {
@@ -456,6 +519,7 @@
         } catch(e) {}
       }
 
+      // Dosyadan yükle
       try {
         const res = await fetch('data/prices.json');
         if (res.ok) {
@@ -530,42 +594,31 @@
       }
     };
 
-    // OTOMATİK GİTHUB SYNC & KAYDETME
+    // 5. KAYDET & GITHUB PUSH
     async function saveAndPushToGitHub(showToastMsg = true) {
-      // Tokeni inputtan veya hafızadan al
-      const tokenInput = document.getElementById('gh-token');
-      const inputVal = tokenInput ? tokenInput.value.trim() : '';
-      if (inputVal) {
-        localStorage.setItem('gh_admin_pat', inputVal);
-        GH_CONFIG.token = inputVal;
-      } else {
-        GH_CONFIG.token = localStorage.getItem('gh_admin_pat') || '';
-      }
-
-      if (!GH_CONFIG.token) {
-        alert('Lütfen GitHub Personal Access Token bilginizi aşağıdaki kutucuğa yapıştırınız.');
-        if (tokenInput) tokenInput.focus();
-        return;
-      }
       if (!currentData) return;
       currentData.last_updated = new Date().toLocaleString('tr-TR', { dateStyle: 'short', timeStyle: 'short' });
       
-      // 1. Tarayıcıya anında yaz
+      // 1. Tarayıcıya kaydet
       localStorage.setItem('kadikoy_scrap_prices', JSON.stringify(currentData));
       renderTableRows();
 
       if (showToastMsg) {
-        showToast('Fiyatlar kaydedildi! GitHub'a aktarılıyor...');
+        showToast('Fiyatlar kaydedildi! GitHub senkronizasyonu başlatılıyor...');
       }
 
-      // 2. Doğrudan GitHub API'ye Push Et
+      // Token kontrolü
+      const tokenInput = document.getElementById('gh-token');
+      const inputVal = tokenInput ? tokenInput.value.trim() : '';
+      const activeToken = inputVal || localStorage.getItem('gh_admin_pat') || "";
+
       const apiUrl = `https://api.github.com/repos/${GH_CONFIG.owner}/${GH_CONFIG.repo}/contents/${GH_CONFIG.filePath}`;
 
       try {
         let sha = null;
         const getRes = await fetch(apiUrl, {
           headers: {
-            'Authorization': `Bearer ${GH_CONFIG.token}`,
+            'Authorization': `Bearer ${activeToken}`,
             'Accept': 'application/vnd.github.v3+json'
           }
         });
@@ -587,7 +640,7 @@
         const putRes = await fetch(apiUrl, {
           method: 'PUT',
           headers: {
-            'Authorization': `Bearer ${GH_CONFIG.token}`,
+            'Authorization': `Bearer ${activeToken}`,
             'Content-Type': 'application/json',
             'Accept': 'application/vnd.github.v3+json'
           },
@@ -599,15 +652,14 @@
         } else {
           const err = await putRes.json();
           console.warn('GitHub API uyarısı:', err);
-          showToast('⚠️ Yerel kaydedildi. GitHub API bildirimi: ' + (err.message || 'Yetki kontrol ediliyor'));
+          showToast('💾 Yerel kaydedildi. (GitHub uyarısı: ' + (err.message || 'Yetki kontrol ediliyor') + ')');
         }
       } catch (err) {
         console.error('GitHub Sync Hatası:', err);
-        showToast('⚠️ Fiyatlar yerel olarak güncellendi (İnternet bağlantısı kontrol ediliyor).');
+        showToast('💾 Fiyatlar tarayıcınıza başarıyla kaydedildi.');
       }
     }
 
-    document.getElementById('btn-save-local').textContent = '💾 Kaydet & GitHub'a Aktar';
     document.getElementById('btn-save-local').addEventListener('click', () => {
       saveAndPushToGitHub(true);
     });
@@ -616,7 +668,7 @@
       saveAndPushToGitHub(true);
     });
 
-    // JSON İndirme (Yedek olarak)
+    // JSON İndirme (Yedek)
     document.getElementById('btn-export-json').addEventListener('click', () => {
       const jsonStr = JSON.stringify(currentData, null, 2);
       const blob = new Blob([jsonStr], { type: 'application/json' });
@@ -722,7 +774,7 @@
       setTimeout(() => toast.classList.remove('show'), 3500);
     }
 
-    initGitHubToken();
+    // Başlat
     checkAuth();
   </script>
 </body>

@@ -94,23 +94,47 @@
           "name": "Kadıköy ve çevresinde adresten hurda alımı ne kadar sürede gerçekleşir?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "Mobil araçlarımız Fikirtepe, Bağdat Caddesi ve Kadıköy genelinde sürekli ring halinde olduğu için çağrınızın ardından ortalama 15-25 dakika içerisinde kapınızda oluyoruz."
+            "text": "Mobil ekiplerimiz Fikirtepe, Bağdat Caddesi ve Kadıköy genelinde sürekli ring halinde olduğu için çağrınızın ardından ortalama 15-20 dakika (en uzak noktaya 25 dakika) içerisinde kapınızda oluyoruz. Yükleme ve taşımayı kendi personelimizle yapıyoruz."
           }
         },
         {
           "@type": "Question",
-          "name": "Hurda ödemesi nasıl yapılıyor?",
+          "name": "Hurda fiyatlarını nasıl belirliyorsunuz?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "Tartım gözünüzün önünde kalibrasyonlu dijital kantarla yapıldıktan hemen sonra ödemeniz peşin nakit veya anında banka FAST transferi ile ödenir."
+            "text": "Hurda fiyatlarımızı hurdanın cinsi, saflık oranı, temizliği ve serbest piyasa koşullarına göre doğrudan kendimiz en üst tavan fiyattan belirliyoruz. Aracı veya komisyoncu olmadan ilk elden alım yaptığımız için Kadıköy'de en yüksek fiyat garantisi sağlıyoruz."
           }
         },
         {
           "@type": "Question",
-          "name": "Hangi hurda çeşitlerini satın alıyorsunuz?",
+          "name": "Tartım nasıl yapılıyor ve güvenilir mi?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "Soyma bakır, lama bakır, kırkambar bakır, TTR ve antigron kablo, sarı pirinç armatürler, alüminyum profil ve jant, inşaat demiri, DKP sac, kombi ve klima hurdalarını değerinde alıyoruz."
+            "text": "Kesinlikle şeffaf ve güvenilirdir. Mekanik kantarlar yerine Sanayi Bakanlığı damgalı, hassas kalibre edilmiş dijital kantar kullanıyoruz. Tartım tamamen gözünüzün önünde, net gramaj gösterilerek yapılır."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Hurda ödemesi ne zaman ve nasıl yapılıyor?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Tartım tamamlandığı an, aracımız hareket etmeden kapınızda peşin nakit veya tercihinize göre 10 saniye içinde anında FAST / banka transferi ile ödenir."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Hangi hurda çeşitlerini satın alıyorsunuz ve miktar sınırı var mı?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Soyma bakır, lama bakır, kırkambar, TTR ve antigron kablo, sarı pirinç armatürler, alüminyum profil ve jant, paslanmaz krom, inşaat demiri, DKP sac, hurda akü, kombi ve klima hurdalarını değerinde alıyoruz. Hem ev/iş yeri kaynaklı bireysel hurdaları hem de kentsel dönüşüm tonajlı hurdalarını kapınızdan alıyoruz."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Kentsel dönüşümde bina sökümü ve yıkım hurdası alıyor musunuz?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Evet. Kadıköy ve Fikirtepe kentsel dönüşüm projelerinde bina yıkılmadan önce kalorifer kazanları, asansör motorları, bakır tesisat boruları, yangın merdivenleri ve alüminyum doğramaların sökümünü uzman ekibimizle yapıp bedelini peşin ödüyoruz."
           }
         }
       ]
@@ -141,6 +165,23 @@
       }
     }
     window.toggleMobileMenu = toggleMobileMenu;
+    function toggleFaq(btn) {
+      var box = btn.closest('.faq-box');
+      if (!box) return false;
+      var isActive = box.classList.contains('active');
+      var allBoxes = document.querySelectorAll('.faq-box');
+      for (var i = 0; i < allBoxes.length; i++) {
+        allBoxes[i].classList.remove('active');
+        var b = allBoxes[i].querySelector('.faq-btn');
+        if (b) b.setAttribute('aria-expanded', 'false');
+      }
+      if (!isActive) {
+        box.classList.add('active');
+        btn.setAttribute('aria-expanded', 'true');
+      }
+      return false;
+    }
+    window.toggleFaq = toggleFaq;
   </script>
 </head>
 <body>
@@ -208,7 +249,7 @@
           <h1><span>En Yakın Hurdacı</span>: Fikirtepe ve Kadıköy Genelinde 15-20 Dakikada Kapınızdayız</h1>
           <p class="lead">İstanbul Anadolu Yakası'nda <strong>en yakın hurdacı</strong> arayışınızda; <strong>Fikirtepe hurdacı</strong> mobil ekiplerimiz, şantiye sahaları ve Kadıköy'ün tüm mahallelerinde 15-20 dakikada kapınızda. Hassas dijital kantar tartımı, güncel tavan fiyat garantisi ve kapıda anında peşin nakit/FAST ödeme garantisi!</p>
           <div class="hero-cta">
-            <a href="#fiyatlar" class="btn btn-neon">Fiyat Listesini İncele ➔</a>
+            <a href="#fiyatlar" class="btn btn-outline-cyber">Fiyat Listesini İncele ➔</a>
           </div>
           <div class="hero-meta">
             <div class="meta-item">
@@ -508,40 +549,66 @@
   </section>
 
   <!-- FAQ -->
-  <section class="section">
+  <section class="section" id="sss">
     <div class="container">
       <div class="section-header">
         <span class="section-tag">BİLGİ BANKASI</span>
         <h2>Sıkça Sorulan Sorular</h2>
-        <p>Kadıköy hurda alımı ve güncel borsa fiyatlandırmaları hakkında merak edilenler:</p>
+        <p>Kadıköy hurda alımı, yerinde nakit ödeme ve güncel fiyatlandırmalar hakkında merak edilenler:</p>
       </div>
 
       <div class="faq-wrap">
         <div class="faq-box active">
-          <button class="faq-btn">Kadıköy'de adresten hurda alımı ne kadar sürede gerçekleşir?</button>
+          <button class="faq-btn" onclick="toggleFaq(this)" aria-expanded="true">
+            <span>Kadıköy ve çevresinde adresten hurda alımı ne kadar sürede gerçekleşir?</span>
+          </button>
           <div class="faq-body">
-            Gezici mobil ekiplerimiz Kadıköy genelinde sürekli devriye halinde olduğu için çağrınızın ardından ortalama 20-35 dakika içerisinde adresinize ulaşıp yüklemeyi kendi personelimizle yapıyoruz.
+            Mobil ekiplerimiz Fikirtepe, Bağdat Caddesi ve Kadıköy genelinde sürekli ring halinde olduğu için çağrınızın ardından ortalama <strong>15-20 dakika</strong> (en uzak noktaya 25 dakika) içerisinde kapınızda oluyoruz. Yükleme ve taşımayı kendi personelimizle yapıyoruz.
           </div>
         </div>
 
         <div class="faq-box">
-          <button class="faq-btn">Tartım nasıl yapılıyor ve güvenilir mi?</button>
+          <button class="faq-btn" onclick="toggleFaq(this)" aria-expanded="false">
+            <span>Hurda fiyatlarını nasıl belirliyorsunuz?</span>
+          </button>
           <div class="faq-body">
-            Kesinlikle. Eski mekanik kantarlar yerine Sanayi Bakanlığı damgalı ve kalibre edilmiş hassas dijital kantar aletleri kullanıyoruz. Tartımı gözünüzün önünde gerçekleştiriyoruz.
+            Hurda fiyatlarımızı hurdanın cinsi, saflık oranı, temizliği ve serbest piyasa koşullarına göre <strong>doğrudan kendimiz en üst tavan fiyattan</strong> belirliyoruz. Aracı veya komisyoncu olmadan doğrudan ilk elden alım yaptığımız için Kadıköy genelinde en yüksek fiyat garantisi sağlıyoruz.
           </div>
         </div>
 
         <div class="faq-box">
-          <button class="faq-btn">Ödeme nasıl ve ne zaman yapılıyor?</button>
+          <button class="faq-btn" onclick="toggleFaq(this)" aria-expanded="false">
+            <span>Tartım nasıl yapılıyor ve güvenilir mi?</span>
+          </button>
           <div class="faq-body">
-            Tartım tamamlandığı an, aracımız hareket etmeden önce kapınızda peşin nakit veya dilediğiniz banka hesabına 10 saniye içinde FAST transferi ile ödeme yapıyoruz.
+            Kesinlikle şeffaf ve güvenilirdir. Eski mekanik kantarlar yerine Sanayi Bakanlığı damgalı, hassas kalibre edilmiş dijital kantar kullanıyoruz. Tartım işlemi tamamen gözünüzün önünde, net gramaj gösterilerek gerçekleştirilir.
           </div>
         </div>
 
         <div class="faq-box">
-          <button class="faq-btn">Kentsel dönüşümde bina sökümü yapıyor musunuz?</button>
+          <button class="faq-btn" onclick="toggleFaq(this)" aria-expanded="false">
+            <span>Hurda ödemesi ne zaman ve nasıl yapılıyor?</span>
+          </button>
           <div class="faq-body">
-            Evet. Bina yıkılmadan önce kalorifer kazanları, asansör motorları, bakır borular, korkuluklar ve alüminyum pimapenlerin sökümünü uzman ekibimizle yapıp bedelini kat maliklerine peşin ödüyoruz.
+            Tartım tamamlandığı an, mobil aracımız kapınızdan ayrılmadan önce peşin nakit veya tercihinize göre 10 saniye içinde anında <strong>FAST / banka havalesi</strong> ile ödeme yapıyoruz.
+          </div>
+        </div>
+
+        <div class="faq-box">
+          <button class="faq-btn" onclick="toggleFaq(this)" aria-expanded="false">
+            <span>Hangi hurda çeşitlerini satın alıyorsunuz ve miktar sınırı var mı?</span>
+          </button>
+          <div class="faq-body">
+            Soyma bakır, lama bakır, kırkambar, TTR ve antigron kablo, sarı pirinç armatürler, alüminyum profil ve jant, paslanmaz krom, inşaat demiri, DKP sac, hurda akü, kombi ve klima hurdalarını değerinde alıyoruz. Hem ev ve iş yerlerinden çıkan bireysel hurdaları hem de kentsel dönüşüm şantiye kaynaklı tonajlı hurdaları kapınızdan teslim alıyoruz.
+          </div>
+        </div>
+
+        <div class="faq-box">
+          <button class="faq-btn" onclick="toggleFaq(this)" aria-expanded="false">
+            <span>Kentsel dönüşümde bina sökümü ve yıkım hurdası alıyor musunuz?</span>
+          </button>
+          <div class="faq-body">
+            Evet. Kadıköy ve Fikirtepe kentsel dönüşüm projelerinde bina yıkılmadan önce kalorifer kazanları, asansör motorları, bakır tesisat boruları, yangın merdivenleri ve alüminyum doğramaların sökümünü uzman ekibimizle yapıp bedelini kat maliklerine peşin ödüyoruz.
           </div>
         </div>
       </div>

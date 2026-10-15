@@ -59,18 +59,22 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  // FAQ Accordion
-  const faqItems = document.querySelectorAll('.faq-box, .faq-item');
-  faqItems.forEach(item => {
-    const btn = item.querySelector('.faq-btn, .faq-question');
-    if (btn) {
-      btn.addEventListener('click', () => {
-        const isActive = item.classList.contains('active');
-        faqItems.forEach(i => i.classList.remove('active'));
-        if (!isActive) item.classList.add('active');
-      });
+  // FAQ Accordion (Fail-safe with inline onclick)
+  window.toggleFaq = window.toggleFaq || function(btn) {
+    const box = btn.closest('.faq-box, .faq-item');
+    if (!box) return false;
+    const isActive = box.classList.contains('active');
+    document.querySelectorAll('.faq-box, .faq-item').forEach(b => {
+      b.classList.remove('active');
+      const bBtn = b.querySelector('.faq-btn, .faq-question');
+      if (bBtn) bBtn.setAttribute('aria-expanded', 'false');
+    });
+    if (!isActive) {
+      box.classList.add('active');
+      btn.setAttribute('aria-expanded', 'true');
     }
-  });
+    return false;
+  };
 
   // Scrap Calculator
   const calcScrapType = document.getElementById('calc-scrap-type');

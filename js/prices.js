@@ -63,7 +63,7 @@ const MetalPriceService = {
     const tickerContent = document.querySelector('.ticker-content');
     if (!tickerContent || !data.metals) return;
 
-    let itemsHtml = `<span class="ticker-item">⚡ <strong>LME & SERBEST PİYASA KADIKÖY KURLARI (${data.last_updated || 'CANLI'}):</strong></span>`;
+    let itemsHtml = `<span class="ticker-item">♻️ <strong>GÜNCEL KADIKÖY HURDA ALIM FİYATLARI:</strong></span>`;
     data.metals.filter(m => m.active).slice(0, 10).forEach(m => {
       const isUp = m.trend && m.trend.includes('▲');
       const isCopper = m.category === 'bakir' || m.category === 'sari';

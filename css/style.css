@@ -824,7 +824,6 @@ a {
 
 /* ========================================================
    GELİŞMİŞ MOBİL VE TABLET UYUMLULUK OPTİMİZASYONLARI
-   (Mobil Menü, Dokunmatik Butonlar ve Yüzen Aksiyon Çubuğu)
    ======================================================== */
 
 html {
@@ -873,11 +872,16 @@ html {
 
 @media (max-width: 768px) {
   body {
-    padding-bottom: 78px !important;
+    padding-bottom: 74px !important;
   }
 
   .container {
-    padding: 0 18px;
+    padding: 0 16px;
+  }
+
+  .navbar {
+    position: relative !important;
+    padding: 12px 0;
   }
 
   /* Hamburger Menü Butonu */
@@ -893,40 +897,34 @@ html {
     color: var(--neon-mint) !important;
     font-size: 1.5rem !important;
     cursor: pointer !important;
-    z-index: 1001 !important;
+    z-index: 10001 !important;
     outline: none;
+    -webkit-tap-highlight-color: transparent;
   }
 
   /* Mobil Açılır Menü Paneli */
   .nav-menu {
-    display: none !important;
+    display: none;
     position: absolute !important;
     top: 100% !important;
     left: 0 !important;
     right: 0 !important;
     width: 100% !important;
     background: #080b11 !important;
-    backdrop-filter: blur(24px) !important;
-    -webkit-backdrop-filter: blur(24px) !important;
     flex-direction: column !important;
-    padding: 16px 20px 24px !important;
+    padding: 16px 18px 24px !important;
     border-bottom: 2px solid var(--neon-mint) !important;
-    box-shadow: 0 25px 50px rgba(0, 0, 0, 0.95) !important;
-    z-index: 1000 !important;
+    box-shadow: 0 25px 50px rgba(0, 0, 0, 0.98) !important;
+    z-index: 99999 !important;
     gap: 6px !important;
     box-sizing: border-box !important;
   }
 
+  .nav-menu.menu-is-active,
   .nav-menu.open {
     display: flex !important;
     visibility: visible !important;
     opacity: 1 !important;
-    animation: slideDown 0.2s ease-out forwards;
-  }
-
-  @keyframes slideDown {
-    from { opacity: 0; transform: translateY(-8px); }
-    to { opacity: 1; transform: translateY(0); }
   }
 
   .nav-menu li {
@@ -937,13 +935,13 @@ html {
   .nav-menu a {
     display: flex;
     align-items: center;
-    padding: 12px 16px;
-    font-size: 1rem;
+    padding: 12px 14px;
+    font-size: 0.98rem;
     font-weight: 600;
     color: var(--text-primary);
     border-radius: var(--radius-md);
     background: rgba(255, 255, 255, 0.02);
-    border: 1px solid rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.06);
   }
 
   .nav-menu a:hover, .nav-menu a.active {
@@ -956,22 +954,23 @@ html {
     display: none !important;
   }
 
-  /* YÜZEN MOBİL AKSİYON ÇUBUĞU (HEMEN ARA & WHATSAPP) */
+  /* YÜZEN MOBİL AKSİYON ÇUBUĞU (KUSURSUZ SIĞAN 'ARA' & 'WHATSAPP') */
   .mobile-floating-bar {
     display: flex !important;
     position: fixed !important;
-    bottom: 12px !important;
+    bottom: 10px !important;
     left: 12px !important;
     right: 12px !important;
-    background: rgba(8, 11, 17, 0.94) !important;
-    backdrop-filter: blur(24px) !important;
-    -webkit-backdrop-filter: blur(24px) !important;
+    background: rgba(8, 11, 17, 0.95) !important;
+    backdrop-filter: blur(20px) !important;
+    -webkit-backdrop-filter: blur(20px) !important;
     border: 1px solid var(--border-neon) !important;
     border-radius: var(--radius-full) !important;
-    padding: 6px !important;
+    padding: 5px !important;
     gap: 8px !important;
     z-index: 9999 !important;
-    box-shadow: 0 10px 35px rgba(0, 0, 0, 0.85), 0 0 20px rgba(0, 240, 144, 0.2) !important;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.85), 0 0 20px rgba(0, 240, 144, 0.2) !important;
+    box-sizing: border-box !important;
   }
 
   .mobile-floating-bar a {
@@ -980,13 +979,15 @@ html {
     align-items: center;
     justify-content: center;
     gap: 6px;
-    padding: 12px 10px;
+    padding: 12px 8px;
     border-radius: var(--radius-full);
-    font-weight: 700;
-    font-size: 0.92rem;
+    font-weight: 800;
+    font-size: 0.95rem;
+    letter-spacing: 0.5px;
     text-align: center;
     min-height: 44px;
     box-sizing: border-box;
+    white-space: nowrap;
   }
 
   .mobile-floating-bar .call-neon {
@@ -1003,97 +1004,95 @@ html {
 
   /* Hero & Tipografi */
   .hero {
-    padding: 40px 0 32px;
+    padding: 36px 0 28px;
   }
   .hero h1 {
-    font-size: clamp(1.85rem, 6.5vw, 2.4rem);
+    font-size: clamp(1.8rem, 6.5vw, 2.3rem);
     line-height: 1.2;
-    margin-bottom: 16px;
+    margin-bottom: 14px;
   }
   .hero p.lead {
-    font-size: 1rem;
-    margin-bottom: 24px;
+    font-size: 0.98rem;
+    margin-bottom: 22px;
     line-height: 1.6;
   }
   .radar-badge {
-    font-size: 0.74rem;
-    padding: 5px 12px;
+    font-size: 0.72rem;
+    padding: 5px 10px;
     line-height: 1.4;
   }
   .hero-meta {
-    margin-top: 28px;
-    padding-top: 20px;
-    gap: 12px;
+    margin-top: 24px;
+    padding-top: 18px;
+    gap: 10px;
   }
   .meta-item .val {
-    font-size: 1.45rem;
+    font-size: 1.4rem;
   }
   .meta-item .lbl {
-    font-size: 0.72rem;
+    font-size: 0.7rem;
   }
 
   .glass-card {
-    padding: 22px 18px;
+    padding: 20px 16px;
     border-radius: var(--radius-lg);
   }
   .calc-display {
-    padding: 14px;
+    padding: 12px;
   }
   .calc-display .price-output {
-    font-size: clamp(1.7rem, 7vw, 2.1rem);
+    font-size: clamp(1.6rem, 7vw, 2rem);
   }
 
   .section {
-    padding: 48px 0;
+    padding: 44px 0;
   }
   .section-header {
-    margin-bottom: 36px;
+    margin-bottom: 32px;
   }
   .section-header h2 {
-    font-size: clamp(1.6rem, 5.5vw, 2rem);
+    font-size: clamp(1.55rem, 5.5vw, 1.95rem);
   }
 
   .grid-3 {
     grid-template-columns: 1fr;
-    gap: 18px;
+    gap: 16px;
   }
   .feature-box {
-    padding: 24px 20px;
+    padding: 22px 18px;
   }
 
   .district-matrix {
     grid-template-columns: repeat(2, 1fr);
-    gap: 10px;
+    gap: 8px;
   }
   .district-card {
-    padding: 12px 14px;
-    min-height: 48px;
+    padding: 10px 12px;
+    min-height: 44px;
   }
 
   .article-paper {
-    padding: 24px 18px;
+    padding: 22px 16px;
     border-radius: var(--radius-lg);
+    font-size: 0.98rem;
   }
   .article-paper h1 {
-    font-size: clamp(1.5rem, 5.5vw, 1.9rem);
-  }
-  .sidebar-panel {
-    padding: 20px 18px;
+    font-size: clamp(1.45rem, 5.5vw, 1.85rem);
   }
 
   .footer {
-    padding: 48px 0 28px;
-    margin-top: 48px;
+    padding: 44px 0 24px;
+    margin-top: 40px;
   }
   .footer-grid {
     grid-template-columns: 1fr;
-    gap: 28px;
+    gap: 24px;
   }
 }
 
 @media (max-width: 400px) {
   .container {
-    padding: 0 14px;
+    padding: 0 12px;
   }
   .hero-meta {
     grid-template-columns: 1fr;
@@ -1103,7 +1102,7 @@ html {
     grid-template-columns: 1fr;
   }
   .mobile-floating-bar a {
-    font-size: 0.84rem;
-    padding: 10px 6px;
+    font-size: 0.88rem;
+    padding: 10px 4px;
   }
 }

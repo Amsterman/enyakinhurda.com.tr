@@ -3,18 +3,18 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Hurda Fiyatları Nasıl Belirlenir? LME Borsa Kuru Rehberi</title>
-  <meta name="description" content="Hurda fiyatları neye göre belirlenir? Londra Metal Borsası (LME), Dolar/TL kuru ve saflık oranı faktörlerini öğrenin: 0542 242 26 60.">
+  <title>Hurda Fiyatları Nasıl Belirlenir? Fiyat Belirleme Rehberi</title>
+  <meta name="description" content="Hurda fiyatları neye göre belirlenir? Hurda Metal Piyasası (Piyasa), Dolar/TL kuru ve saflık oranı faktörlerini öğrenin: 0542 242 26 60.">
   <link rel="canonical" href="https://enyakinhurda.com.tr/blog/hurda-fiyatlari-nasil-belirlenir.html">
-  <meta property="og:title" content="Hurda Fiyatları Nasıl Belirlenir? LME Borsa Kuru Rehberi">
-  <meta property="og:description" content="Hurda fiyatları neye göre belirlenir? Londra Metal Borsası (LME), Dolar/TL kuru ve saflık oranı faktörlerini öğrenin: 0542 242 26 60.">
+  <meta property="og:title" content="Hurda Fiyatları Nasıl Belirlenir? Fiyat Belirleme Rehberi">
+  <meta property="og:description" content="Hurda fiyatları neye göre belirlenir? Hurda Metal Piyasası (Piyasa), Dolar/TL kuru ve saflık oranı faktörlerini öğrenin: 0542 242 26 60.">
   <meta property="og:url" content="https://enyakinhurda.com.tr/blog/hurda-fiyatlari-nasil-belirlenir.html">
   <meta property="og:type" content="article">
   <meta property="og:locale" content="tr_TR">
   <meta property="og:site_name" content="En Yakın Hurda">
   <meta name="twitter:card" content="summary">
-  <meta name="twitter:title" content="Hurda Fiyatları Nasıl Belirlenir? LME Borsa Kuru Rehberi">
-  <meta name="twitter:description" content="Hurda fiyatları neye göre belirlenir? Londra Metal Borsası (LME), Dolar/TL kuru ve saflık oranı faktörlerini öğrenin: 0542 242 26 60.">
+  <meta name="twitter:title" content="Hurda Fiyatları Nasıl Belirlenir? Fiyat Belirleme Rehberi">
+  <meta name="twitter:description" content="Hurda fiyatları neye göre belirlenir? Hurda Metal Piyasası (Piyasa), Dolar/TL kuru ve saflık oranı faktörlerini öğrenin: 0542 242 26 60.">
   <meta name="geo.region" content="TR-34">
   <meta name="geo.placename" content="Kadıköy, İstanbul">
   <meta name="geo.position" content="40.9928;29.0435">
@@ -50,8 +50,8 @@
     },
     {
       "@type": "BlogPosting",
-      "headline": "Hurda Fiyatları Nasıl Belirlenir? LME Borsa Kuru Rehberi",
-      "description": "Hurda fiyatları neye göre belirlenir? Londra Metal Borsası (LME), Dolar/TL kuru ve saflık oranı faktörlerini öğrenin: 0542 242 26 60.",
+      "headline": "Hurda Fiyatları Nasıl Belirlenir? Fiyat Belirleme Rehberi",
+      "description": "Hurda fiyatları neye göre belirlenir? Hurda Metal Piyasası (Piyasa), Dolar/TL kuru ve saflık oranı faktörlerini öğrenin: 0542 242 26 60.",
       "datePublished": "2026-10-12",
       "dateModified": "2026-10-13",
       "mainEntityOfPage": {
@@ -115,6 +115,30 @@
   ]
 }
   </script>
+  <script>
+    function toggleMobileMenu(e) {
+      if (e) {
+        if (e.preventDefault) e.preventDefault();
+        if (e.stopPropagation) e.stopPropagation();
+      }
+      var m = document.getElementById('mobile-nav-menu') || document.querySelector('.nav-menu');
+      var b = document.getElementById('menu-toggle-btn') || document.querySelector('.menu-toggle');
+      if (!m) return;
+      var curDisplay = window.getComputedStyle(m).display;
+      if (curDisplay === 'none') {
+        m.classList.add('menu-is-active');
+        m.classList.add('open');
+        m.style.setProperty('display', 'flex', 'important');
+        if (b) { b.textContent = '✕'; b.setAttribute('aria-expanded', 'true'); }
+      } else {
+        m.classList.remove('menu-is-active');
+        m.classList.remove('open');
+        m.style.setProperty('display', 'none', 'important');
+        if (b) { b.textContent = '☰'; b.setAttribute('aria-expanded', 'false'); }
+      }
+    }
+    window.toggleMobileMenu = toggleMobileMenu;
+  </script>
 </head>
 <body>
 
@@ -122,10 +146,10 @@
 
   
 
-  <!-- CANLI LME BORSA TICKER BANDI -->
+  <!-- CANLI BORSA TICKER BANDI -->
   <div class="ticker-wrap">
     <div class="ticker-content">
-      <span class="ticker-item">♻️ <strong>LME & SERBEST PİYASA KADIKÖY KURLARI:</strong></span>
+      <span class="ticker-item">♻️ <strong>GÜNCEL KADIKÖY HURDA ALIM FİYATLARI:</strong></span>
       <span class="ticker-item">Soyma Bakır: <span class="rate">385.00 ₺/kg</span> <span class="up">▲ +%1.4</span></span>
       <span class="ticker-item">Lama Bakır: <span class="rate">370.00 ₺/kg</span></span>
       <span class="ticker-item">Kırkambar Bakır: <span class="rate">340.00 ₺/kg</span></span>
@@ -146,7 +170,7 @@
           <div>EnYakın<span class="text-neon">Hurda</span></div>
         </a>
         <button type="button" class="menu-toggle" id="menu-toggle-btn" onclick="toggleMobileMenu(event)" aria-label="Menüyü Aç" aria-expanded="false">☰</button>
-        <ul class="nav-menu">
+        <ul class="nav-menu" id="mobile-nav-menu">
           <li><a href="../index.html" class="">Borsa & Fiyatlar</a></li>
           <li><a href="../hurda-bakir-fiyatlari.html" class="">Bakır Kurları</a></li>
           <li><a href="../hurda-demir-ve-kablo-alimi.html" class="">Kablo & Demir</a></li>
@@ -155,14 +179,10 @@
           <li><a href="../fikirtepe-hurdaci.html" class="">Fikirtepe</a></li>
           <li><a href="../kozyatagi-hurdaci.html" class="">Kozyatağı</a></li>
           <li><a href="../blog/index.html" class="active">Rehber</a></li>
-        <li style="margin-top: 10px; padding-top: 10px; border-top: 1px solid rgba(255,255,255,0.08);">
-            <a href="tel:+905422422660" style="background: var(--neon-mint); color: #040609; justify-content: center; font-weight: 700; margin-bottom: 6px;">📞 Hemen Ara: 0542 242 26 60</a>
-            <a href="https://wa.me/905422422660?text=Merhaba,%20hurda%20fiyatı%20öğrenmek%20istiyorum" style="background: #25d366; color: #ffffff; justify-content: center; font-weight: 700;">💬 WhatsApp ile Fiyat Al</a>
-          </li>
+        
         </ul>
         <div class="nav-actions">
-          <a href="tel:+905422422660" class="btn btn-neon" style="padding: 8px 14px; font-size: 0.85rem;">📞 0542 242 26 60</a>
-          <a href="https://wa.me/905422422660?text=Merhaba,%20hurda%20fiyatı%20öğrenmek%20istiyorum" class="btn btn-copper" style="padding: 8px 14px; font-size: 0.85rem;">💬 WhatsApp</a>
+          <a href="../index.html#iletisim" class="btn btn-glass" style="font-size: 0.85rem; padding: 8px 16px;">İletişim</a>
         </div>
       </nav>
     </div>
@@ -181,25 +201,25 @@
 
       <div class="article-grid">
         <article class="article-paper">
-          <h1>Hurda Fiyatları Nasıl Belirlenir? LME Borsası ve Yerel Piyasa Dinamikleri</h1>
+          <h1>Hurda Fiyatları Nasıl Belirlenir? Hurda Fiyatlandırma ve Değer Tespiti Rehberi</h1>
           <div style="font-size: 0.85rem; font-family: ui-monospace, monospace; color: var(--neon-mint); margin-bottom: 24px;">
             📅 12 EKİM 2026 • ⏱️ 6 DAKİKA OKUMA • ✍️ KADIKÖY METALS ANALİZ
           </div>
 
           <p>Elinizde tadilattan kalan bir miktar bakır boru, şantiyeden çıkan demir yığınları veya fabrikanızdan kalan üretim fazlası kablolar olduğunda akla gelen ilk soru: <strong>"Bu hurdanın kilosu gerçekte ne kadar ve fiyatı kim belirler?"</strong></p>
 
-          <p>Hurda piyasası rastgele fiyatların belirlendiği bir pazar değildir. Tam aksine, Londra Metal Borsası'na (LME) ve küresel döviz paritelerine bağlı küresel bir emtia ekosistemidir.</p>
+          <p>Hurda piyasası rastgele fiyatların belirlendiği bir pazar değildir. Tam aksine, Hurda Metal Piyasası'na (Piyasa) ve küresel döviz paritelerine bağlı küresel bir emtia ekosistemidir.</p>
 
-          <h2>1. Londra Metal Borsası (LME) ve Küresel Emtia Kurları</h2>
-          <p>Dünya genelinde bakır, alüminyum, kurşun, çinko ve nikel gibi ana sanayi metallerinin referans fiyatı <strong>London Metal Exchange (LME)</strong> üzerinde işlem görür. LME'de ton başına ABD Doları cinsinden işlem gören fiyatlar, ergitilip külçe haline getirilecek metalin değerini gösterir.</p>
+          <h2>1. Metalin Saflık Derecesi ve Kalite Sınıfı</h2>
+          <p>Dünya genelinde bakır, alüminyum, kurşun, çinko ve nikel gibi ana sanayi metallerinin referans fiyatı <strong>Hurda Metal Piyasası (Piyasa)</strong> üzerinde işlem görür. Piyasa'de ton başına ABD Doları cinsinden işlem gören fiyatlar, ergitilip külçe haline getirilecek metalin değerini gösterir.</p>
 
           <div class="callout-box">
-            📊 <strong>Temel Hesaplama Mantığı:</strong><br>
-            Yerel Hurda Tavan Değeri = (LME Ton Kuru / 1.000) &times; USD/TRY Paritesi &times; (Saflık Oranı / 100) - Rafineri Maliyeti
+            📊 <strong>Hurda Değer Hesaplama Formülü:</strong><br>
+            Net Tutar = Tartılan Brüt Ağırlık &times; Malzemenin Saflık / Randıman Oranı &times; Güncel Tavan Birim Fiyatı
           </div>
 
-          <h2>2. Dolar / TL Kurunun Doğrudan Etkisi</h2>
-          <p>LME fiyatları dolar bazlı olduğu için, döviz kuru yükseldiğinde küresel borsa fiyatı sabit kalsa dahi Türk Lirası cinsinden hurda bakır, alüminyum ve sarı pirinç fiyatları otomatik olarak yukarı revize edilir.</p>
+          <h2>2. Hurda Kablolarda Bakır Randımanı Hesabı</h2>
+<p>Elektrik kablolarının değeri içerdikleri saf bakır miktarına göre saptanır. Örneğin 10 kg kalın tek damar kablodan soyma işlemi sonrası 7 kg saf bakır çıkarsa randıman %70 olarak hesaplanır ve fiyata yansıtılır.</p>
 
           <h2>3. Metalin Saflık Derecesi ve Randıman</h2>
           <p>Hurda alan tesisler sadece ergitilebilir saf metale ödeme yapar. Bu sebeple üzerinde lehim veya boya bulunmayan <strong>Soyma Bakır</strong> en yüksek değeri alırken, lehimli veya kireçli <strong>Kırkambar Bakır</strong> cüruf firesi nedeniyle daha düşük birim fiyatla hesaplanır.</p>
@@ -207,13 +227,10 @@
           <div class="callout-box">
             💡 <strong>Hurdacıya Satarken Altın Kurallar:</strong>
             <ul style="margin: 8px 0 0 18px;">
-              <li>Fiyat teklifi alırken mutlaka o günkü LME ve döviz kurunu sorunuz.</li>
+              <li>Fiyat teklifi alırken mutlaka o günkü Piyasa ve döviz kurunu sorunuz.</li>
               <li>Tartımı mutlaka kalibrasyonlu dijital kantar üzerinde izleyiniz.</li>
               <li>Farklı metalleri (bakır, sarı, demir) birbirine karıştırmadan ayrı ayrı tarttırınız.</li>
-            <li style="margin-top: 10px; padding-top: 10px; border-top: 1px solid rgba(255,255,255,0.08);">
-            <a href="tel:+905422422660" style="background: var(--neon-mint); color: #040609; justify-content: center; font-weight: 700; margin-bottom: 6px;">📞 Hemen Ara: 0542 242 26 60</a>
-            <a href="https://wa.me/905422422660?text=Merhaba,%20hurda%20fiyatı%20öğrenmek%20istiyorum" style="background: #25d366; color: #ffffff; justify-content: center; font-weight: 700;">💬 WhatsApp ile Fiyat Al</a>
-          </li>
+            
         </ul>
           </div>
         </article>
@@ -230,13 +247,13 @@
   </main>
 
   
-  <!-- FOOTER -->
+    <!-- FOOTER -->
   <footer class="footer" id="iletisim">
     <div class="container">
       <div class="footer-grid">
         <div>
           <h4>Kadıköy Metal Exchange & Geri Dönüşüm</h4>
-          <p>LME ve serbest piyasa kurlarıyla entegre, Kadıköy'ün 21 mahallesinde adrese ulaşan yüksek teknolojili hurda alım altyapısı. Hassas dijital tartım ve güvenli ticaret.</p>
+          <p>Kadıköy ve Anadolu Yakası genelinde adrese ulaşan, Kadıköy'ün 21 mahallesinde adrese ulaşan yüksek teknolojili hurda alım altyapısı. Hassas dijital tartım ve güvenli ticaret.</p>
           <p style="margin-top: 12px; color: var(--text-muted); font-size: 0.85rem;">Hızırbey Cad. Kadıköy / İstanbul</p>
         </div>
         <div>
@@ -247,11 +264,7 @@
             <li><a href="../fikirtepe-hurdaci.html">Fikirtepe Şantiye Hurdası</a></li>
             <li><a href="../kozyatagi-hurdaci.html">Kozyatağı Plaza & E-Atık</a></li>
             <li><a href="../index.html#semtler">Erenköy, Suadiye, Moda</a></li>
-          <li style="margin-top: 10px; padding-top: 10px; border-top: 1px solid rgba(255,255,255,0.08);">
-            <a href="tel:+905422422660" style="background: var(--neon-mint); color: #040609; justify-content: center; font-weight: 700; margin-bottom: 6px;">📞 Hemen Ara: 0542 242 26 60</a>
-            <a href="https://wa.me/905422422660?text=Merhaba,%20hurda%20fiyatı%20öğrenmek%20istiyorum" style="background: #25d366; color: #ffffff; justify-content: center; font-weight: 700;">💬 WhatsApp ile Fiyat Al</a>
-          </li>
-        </ul>
+          </ul>
         </div>
         <div>
           <h4>Hızlı Bağlantılar</h4>
@@ -260,11 +273,7 @@
             <li><a href="../hurda-demir-ve-kablo-alimi.html">Kablo & Demir Alımı</a></li>
             <li><a href="../blog/index.html">Geri Dönüşüm Rehberi</a></li>
             <li><a href="../admin.html">Fiyat Yönetim Paneli</a></li>
-          <li style="margin-top: 10px; padding-top: 10px; border-top: 1px solid rgba(255,255,255,0.08);">
-            <a href="tel:+905422422660" style="background: var(--neon-mint); color: #040609; justify-content: center; font-weight: 700; margin-bottom: 6px;">📞 Hemen Ara: 0542 242 26 60</a>
-            <a href="https://wa.me/905422422660?text=Merhaba,%20hurda%20fiyatı%20öğrenmek%20istiyorum" style="background: #25d366; color: #ffffff; justify-content: center; font-weight: 700;">💬 WhatsApp ile Fiyat Al</a>
-          </li>
-        </ul>
+          </ul>
         </div>
         <div>
           <h4>İletişim Bilgileri</h4>
@@ -280,15 +289,14 @@
     </div>
   </footer>
 
-  <script src="../js/prices.js"></script>
-  <script src="../js/main.js"></script>
+<!-- YÜZEN MOBİL AKSİYON ÇUBUĞU (HEMEN ARA & WHATSAPP) -->
 
 
-  <!-- YÜZEN MOBİL AKSİYON ÇUBUĞU (HEMEN ARA & WHATSAPP) -->
-  <div class="mobile-floating-bar">
-    <a href="tel:+905422422660" class="call-neon">📞 HEMEN ARA (0542 242 26 60)</a>
+  <!-- YÜZEN MOBİL AKSİYON ÇUBUĞU (KUSURSUZ SIĞAN 'ARA' & 'WHATSAPP') -->
+
+<div class="mobile-floating-bar">
+    <a href="tel:+905422422660" class="call-neon">📞 ARA</a>
     <a href="https://wa.me/905422422660?text=Merhaba,%20hurda%20fiyatı%20öğrenmek%20istiyorum" class="wa-neon">💬 WHATSAPP</a>
   </div>
-
 </body>
 </html>

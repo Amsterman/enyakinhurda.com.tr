@@ -101,16 +101,40 @@
   ]
 }
   </script>
+  <script>
+    function toggleMobileMenu(e) {
+      if (e) {
+        if (e.preventDefault) e.preventDefault();
+        if (e.stopPropagation) e.stopPropagation();
+      }
+      var m = document.getElementById('mobile-nav-menu') || document.querySelector('.nav-menu');
+      var b = document.getElementById('menu-toggle-btn') || document.querySelector('.menu-toggle');
+      if (!m) return;
+      var curDisplay = window.getComputedStyle(m).display;
+      if (curDisplay === 'none') {
+        m.classList.add('menu-is-active');
+        m.classList.add('open');
+        m.style.setProperty('display', 'flex', 'important');
+        if (b) { b.textContent = '✕'; b.setAttribute('aria-expanded', 'true'); }
+      } else {
+        m.classList.remove('menu-is-active');
+        m.classList.remove('open');
+        m.style.setProperty('display', 'none', 'important');
+        if (b) { b.textContent = '☰'; b.setAttribute('aria-expanded', 'false'); }
+      }
+    }
+    window.toggleMobileMenu = toggleMobileMenu;
+  </script>
 </head>
 <body>
 
 
   
 
-  <!-- CANLI LME BORSA TICKER BANDI -->
+  <!-- CANLI BORSA TICKER BANDI -->
   <div class="ticker-wrap">
     <div class="ticker-content">
-      <span class="ticker-item">♻️ <strong>LME & SERBEST PİYASA KADIKÖY KURLARI:</strong></span>
+      <span class="ticker-item">♻️ <strong>GÜNCEL KADIKÖY HURDA ALIM FİYATLARI:</strong></span>
       <span class="ticker-item">Soyma Bakır: <span class="rate">385.00 ₺/kg</span> <span class="up">▲ +%1.4</span></span>
       <span class="ticker-item">Lama Bakır: <span class="rate">370.00 ₺/kg</span></span>
       <span class="ticker-item">Kırkambar Bakır: <span class="rate">340.00 ₺/kg</span></span>
@@ -131,7 +155,7 @@
           <div>EnYakın<span class="text-neon">Hurda</span></div>
         </a>
         <button type="button" class="menu-toggle" id="menu-toggle-btn" onclick="toggleMobileMenu(event)" aria-label="Menüyü Aç" aria-expanded="false">☰</button>
-        <ul class="nav-menu">
+        <ul class="nav-menu" id="mobile-nav-menu">
           <li><a href="index.html" class="">Borsa & Fiyatlar</a></li>
           <li><a href="hurda-bakir-fiyatlari.html" class="">Bakır Kurları</a></li>
           <li><a href="hurda-demir-ve-kablo-alimi.html" class="active">Kablo & Demir</a></li>
@@ -140,14 +164,10 @@
           <li><a href="fikirtepe-hurdaci.html" class="">Fikirtepe</a></li>
           <li><a href="kozyatagi-hurdaci.html" class="">Kozyatağı</a></li>
           <li><a href="blog/index.html" class="">Rehber</a></li>
-        <li style="margin-top: 10px; padding-top: 10px; border-top: 1px solid rgba(255,255,255,0.08);">
-            <a href="tel:+905422422660" style="background: var(--neon-mint); color: #040609; justify-content: center; font-weight: 700; margin-bottom: 6px;">📞 Hemen Ara: 0542 242 26 60</a>
-            <a href="https://wa.me/905422422660?text=Merhaba,%20hurda%20fiyatı%20öğrenmek%20istiyorum" style="background: #25d366; color: #ffffff; justify-content: center; font-weight: 700;">💬 WhatsApp ile Fiyat Al</a>
-          </li>
+        
         </ul>
         <div class="nav-actions">
-          <a href="tel:+905422422660" class="btn btn-neon" style="padding: 8px 14px; font-size: 0.85rem;">📞 0542 242 26 60</a>
-          <a href="https://wa.me/905422422660?text=Merhaba,%20hurda%20fiyatı%20öğrenmek%20istiyorum" class="btn btn-copper" style="padding: 8px 14px; font-size: 0.85rem;">💬 WhatsApp</a>
+          <a href="index.html#iletisim" class="btn btn-glass" style="font-size: 0.85rem; padding: 8px 16px;">İletişim</a>
         </div>
       </nav>
     </div>
@@ -158,10 +178,10 @@
       <div style="max-width: 860px;">
         <div class="radar-badge">
           <span class="radar-dot"></span>
-          <span>LME BORSA ENDEKSLİ CANLI ALIM</span>
+          <span>GÜNCEL VE ŞEFFAF TAVAN FİYATLARLA ALIM</span>
         </div>
         <h1><span>Kadıköy Hurda Kablo ve Demir Alımı</span>: Yüksek Randımanla Değerinde Satış</h1>
-        <p class="lead">Elinizdeki metalleri değerinin altında satmayın. Londra Metal Borsası ve serbest piyasa kurlarına dayalı en tepe fiyattan kapınızda nakite çeviriyoruz.</p>
+        <p class="lead">Elinizdeki metalleri değerinin altında satmayın. Piyasa koşullarına göre belirlenen en tepe fiyattan kapınızda nakite çeviriyoruz.</p>
         
       </div>
     </div>
@@ -189,10 +209,7 @@
             <li>Adreste gözünüzün önünde tartım</li>
             <li>Anında banka FAST veya peşin nakit</li>
             <li>Kendi personelimizle zahmetsiz taşıma</li>
-          <li style="margin-top: 10px; padding-top: 10px; border-top: 1px solid rgba(255,255,255,0.08);">
-            <a href="tel:+905422422660" style="background: var(--neon-mint); color: #040609; justify-content: center; font-weight: 700; margin-bottom: 6px;">📞 Hemen Ara: 0542 242 26 60</a>
-            <a href="https://wa.me/905422422660?text=Merhaba,%20hurda%20fiyatı%20öğrenmek%20istiyorum" style="background: #25d366; color: #ffffff; justify-content: center; font-weight: 700;">💬 WhatsApp ile Fiyat Al</a>
-          </li>
+          
         </ul>
         </div>
 
@@ -209,13 +226,13 @@
 
 
   
-  <!-- FOOTER -->
+    <!-- FOOTER -->
   <footer class="footer" id="iletisim">
     <div class="container">
       <div class="footer-grid">
         <div>
           <h4>Kadıköy Metal Exchange & Geri Dönüşüm</h4>
-          <p>LME ve serbest piyasa kurlarıyla entegre, Kadıköy'ün 21 mahallesinde adrese ulaşan yüksek teknolojili hurda alım altyapısı. Hassas dijital tartım ve güvenli ticaret.</p>
+          <p>Kadıköy ve Anadolu Yakası genelinde adrese ulaşan, Kadıköy'ün 21 mahallesinde adrese ulaşan yüksek teknolojili hurda alım altyapısı. Hassas dijital tartım ve güvenli ticaret.</p>
           <p style="margin-top: 12px; color: var(--text-muted); font-size: 0.85rem;">Hızırbey Cad. Kadıköy / İstanbul</p>
         </div>
         <div>
@@ -226,11 +243,7 @@
             <li><a href="fikirtepe-hurdaci.html">Fikirtepe Şantiye Hurdası</a></li>
             <li><a href="kozyatagi-hurdaci.html">Kozyatağı Plaza & E-Atık</a></li>
             <li><a href="index.html#semtler">Erenköy, Suadiye, Moda</a></li>
-          <li style="margin-top: 10px; padding-top: 10px; border-top: 1px solid rgba(255,255,255,0.08);">
-            <a href="tel:+905422422660" style="background: var(--neon-mint); color: #040609; justify-content: center; font-weight: 700; margin-bottom: 6px;">📞 Hemen Ara: 0542 242 26 60</a>
-            <a href="https://wa.me/905422422660?text=Merhaba,%20hurda%20fiyatı%20öğrenmek%20istiyorum" style="background: #25d366; color: #ffffff; justify-content: center; font-weight: 700;">💬 WhatsApp ile Fiyat Al</a>
-          </li>
-        </ul>
+          </ul>
         </div>
         <div>
           <h4>Hızlı Bağlantılar</h4>
@@ -239,11 +252,7 @@
             <li><a href="hurda-demir-ve-kablo-alimi.html">Kablo & Demir Alımı</a></li>
             <li><a href="blog/index.html">Geri Dönüşüm Rehberi</a></li>
             <li><a href="admin.html">Fiyat Yönetim Paneli</a></li>
-          <li style="margin-top: 10px; padding-top: 10px; border-top: 1px solid rgba(255,255,255,0.08);">
-            <a href="tel:+905422422660" style="background: var(--neon-mint); color: #040609; justify-content: center; font-weight: 700; margin-bottom: 6px;">📞 Hemen Ara: 0542 242 26 60</a>
-            <a href="https://wa.me/905422422660?text=Merhaba,%20hurda%20fiyatı%20öğrenmek%20istiyorum" style="background: #25d366; color: #ffffff; justify-content: center; font-weight: 700;">💬 WhatsApp ile Fiyat Al</a>
-          </li>
-        </ul>
+          </ul>
         </div>
         <div>
           <h4>İletişim Bilgileri</h4>
@@ -259,15 +268,14 @@
     </div>
   </footer>
 
-  <script src="js/prices.js"></script>
-  <script src="js/main.js"></script>
+<!-- YÜZEN MOBİL AKSİYON ÇUBUĞU (HEMEN ARA & WHATSAPP) -->
 
 
-  <!-- YÜZEN MOBİL AKSİYON ÇUBUĞU (HEMEN ARA & WHATSAPP) -->
-  <div class="mobile-floating-bar">
-    <a href="tel:+905422422660" class="call-neon">📞 HEMEN ARA (0542 242 26 60)</a>
+  <!-- YÜZEN MOBİL AKSİYON ÇUBUĞU (KUSURSUZ SIĞAN 'ARA' & 'WHATSAPP') -->
+
+<div class="mobile-floating-bar">
+    <a href="tel:+905422422660" class="call-neon">📞 ARA</a>
     <a href="https://wa.me/905422422660?text=Merhaba,%20hurda%20fiyatı%20öğrenmek%20istiyorum" class="wa-neon">💬 WHATSAPP</a>
   </div>
-
 </body>
 </html>

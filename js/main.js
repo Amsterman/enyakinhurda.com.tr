@@ -1,39 +1,60 @@
 // Kadikoy Metals - Mobile Optimized Main JS
+
+// Global fail-safe mobile menu toggle (works with inline onclick and event listeners)
+function toggleMobileMenu(e) {
+  if (e) {
+    if (e.preventDefault) e.preventDefault();
+    if (e.stopPropagation) e.stopPropagation();
+  }
+  const nav = document.querySelector('.nav-menu');
+  const btn = document.querySelector('.menu-toggle');
+  if (!nav) return;
+  const isOpen = nav.classList.toggle('open');
+  if (btn) {
+    btn.textContent = isOpen ? '✕' : '☰';
+    btn.setAttribute('aria-expanded', isOpen);
+  }
+}
+window.toggleMobileMenu = toggleMobileMenu;
+
 document.addEventListener('DOMContentLoaded', () => {
-  // Mobile Nav Toggle with outside-click & link-click auto-close
   const toggleBtn = document.querySelector('.menu-toggle');
   const navMenu = document.querySelector('.nav-menu');
   
   if (toggleBtn && navMenu) {
-    toggleBtn.addEventListener('click', (e) => {
-      e.stopPropagation();
-      navMenu.classList.toggle('open');
-      const isOpen = navMenu.classList.contains('open');
-      toggleBtn.setAttribute('aria-expanded', isOpen);
-      toggleBtn.textContent = isOpen ? '✕' : '☰';
-    });
+    // Add event listeners as backup to inline onclick
+    toggleBtn.addEventListener('click', toggleMobileMenu);
 
     // Menüdeki bir linke tıklandığında menüyü kapat
     navMenu.querySelectorAll('a').forEach(link => {
       link.addEventListener('click', () => {
         navMenu.classList.remove('open');
-        toggleBtn.textContent = '☰';
+        if (toggleBtn) {
+          toggleBtn.textContent = '☰';
+          toggleBtn.setAttribute('aria-expanded', 'false');
+        }
       });
     });
 
-    // Sayfa dışına tıklandığında menüyü kapat
+    // Menü dışına tıklandığında kapat
     document.addEventListener('click', (e) => {
-      if (!navMenu.contains(e.target) && !toggleBtn.contains(e.target)) {
+      if (navMenu.classList.contains('open') && !navMenu.contains(e.target) && !toggleBtn.contains(e.target)) {
         navMenu.classList.remove('open');
-        toggleBtn.textContent = '☰';
+        if (toggleBtn) {
+          toggleBtn.textContent = '☰';
+          toggleBtn.setAttribute('aria-expanded', 'false');
+        }
       }
     });
 
-    // ESC tuşuna basıldığında menüyü kapat
+    // ESC tuşuna basıldığında kapat
     document.addEventListener('keydown', (e) => {
-      if (e.key === 'Escape') {
+      if (e.key === 'Escape' && navMenu.classList.contains('open')) {
         navMenu.classList.remove('open');
-        toggleBtn.textContent = '☰';
+        if (toggleBtn) {
+          toggleBtn.textContent = '☰';
+          toggleBtn.setAttribute('aria-expanded', 'false');
+        }
       }
     });
   }

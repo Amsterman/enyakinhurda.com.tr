@@ -131,7 +131,8 @@ a {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 18px 0;
+  padding: 16px 0;
+  position: relative;
 }
 .brand-logo {
   display: flex;
@@ -819,41 +820,13 @@ a {
     grid-template-columns: 1fr 1fr;
   }
 }
-@media (max-width: 768px) {
-  .nav-menu {
-    display: none;
-    position: absolute;
-    top: 100%;
-    left: 0; right: 0;
-    background: #07090e;
-    flex-direction: column;
-    padding: 24px;
-    border-bottom: 1px solid var(--border-glass);
-  }
-  .nav-menu.open {
-    display: flex;
-  }
-  .menu-toggle {
-    display: block;
-  }
-  .nav-actions {
-    display: none;
-  }
-  .hero h1 {
-    font-size: 2.2rem;
-  }
-  .footer-grid {
-    grid-template-columns: 1fr;
-  }
-}
 
 
 /* ========================================================
    GELİŞMİŞ MOBİL VE TABLET UYUMLULUK OPTİMİZASYONLARI
-   (320px, 375px, 414px, 768px Kapsamlı Mobil Deneyim)
+   (Mobil Menü, Dokunmatik Butonlar ve Yüzen Aksiyon Çubuğu)
    ======================================================== */
 
-/* Dokunmatik Cihazlar İçin Pürüzsüz Kaydırma */
 html {
   scroll-behavior: smooth;
   -webkit-text-size-adjust: 100%;
@@ -878,23 +851,9 @@ html {
   min-height: 44px;
 }
 
-/* Mobil Menü Geliştirmeleri */
-.menu-toggle {
-  width: 44px;
-  height: 44px;
+/* Yüzen Mobil Bar (Masaüstünde Gizli) */
+.mobile-floating-bar {
   display: none;
-  align-items: center;
-  justify-content: center;
-  background: rgba(255, 255, 255, 0.05);
-  border: 1px solid var(--border-glass);
-  border-radius: var(--radius-md);
-  color: var(--text-primary);
-  font-size: 1.4rem;
-  cursor: pointer;
-  transition: var(--transition);
-}
-.menu-toggle:active {
-  transform: scale(0.92);
 }
 
 @media (max-width: 992px) {
@@ -913,71 +872,133 @@ html {
 }
 
 @media (max-width: 768px) {
+  body {
+    padding-bottom: 78px !important;
+  }
+
   .container {
     padding: 0 18px;
   }
+
+  /* Hamburger Menü Butonu */
   .menu-toggle {
-    display: flex;
-  }
-  .nav-actions {
-    display: none;
-  }
-  .navbar {
-    padding: 14px 0;
-  }
-  .brand-logo {
-    font-size: 1.15rem;
-  }
-  .brand-logo .logo-icon {
-    width: 34px;
-    height: 34px;
-    font-size: 1.1rem;
+    display: flex !important;
+    align-items: center;
+    justify-content: center;
+    width: 44px;
+    height: 44px;
+    background: rgba(255, 255, 255, 0.08) !important;
+    border: 1px solid var(--border-neon) !important;
+    border-radius: var(--radius-md) !important;
+    color: var(--neon-mint) !important;
+    font-size: 1.5rem !important;
+    cursor: pointer !important;
+    z-index: 1001 !important;
+    outline: none;
   }
 
   /* Mobil Açılır Menü Paneli */
   .nav-menu {
-    display: none;
-    position: absolute;
-    top: 100%;
-    left: 0;
-    right: 0;
-    background: rgba(7, 9, 14, 0.98);
-    backdrop-filter: blur(24px);
-    -webkit-backdrop-filter: blur(24px);
-    flex-direction: column;
-    padding: 16px 20px 24px;
-    border-bottom: 2px solid var(--border-neon);
-    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.9);
-    z-index: 999;
-    gap: 4px;
+    display: none !important;
+    position: absolute !important;
+    top: 100% !important;
+    left: 0 !important;
+    right: 0 !important;
+    width: 100% !important;
+    background: #080b11 !important;
+    backdrop-filter: blur(24px) !important;
+    -webkit-backdrop-filter: blur(24px) !important;
+    flex-direction: column !important;
+    padding: 16px 20px 24px !important;
+    border-bottom: 2px solid var(--neon-mint) !important;
+    box-shadow: 0 25px 50px rgba(0, 0, 0, 0.95) !important;
+    z-index: 1000 !important;
+    gap: 6px !important;
+    box-sizing: border-box !important;
   }
+
   .nav-menu.open {
-    display: flex;
-    animation: slideDown 0.25s ease-out forwards;
+    display: flex !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+    animation: slideDown 0.2s ease-out forwards;
   }
+
   @keyframes slideDown {
-    from { opacity: 0; transform: translateY(-10px); }
+    from { opacity: 0; transform: translateY(-8px); }
     to { opacity: 1; transform: translateY(0); }
   }
+
   .nav-menu li {
     width: 100%;
     list-style: none;
   }
+
   .nav-menu a {
     display: flex;
     align-items: center;
-    padding: 12px 14px;
+    padding: 12px 16px;
     font-size: 1rem;
     font-weight: 600;
     color: var(--text-primary);
     border-radius: var(--radius-md);
     background: rgba(255, 255, 255, 0.02);
-    border: 1px solid transparent;
+    border: 1px solid rgba(255, 255, 255, 0.05);
   }
+
   .nav-menu a:hover, .nav-menu a.active {
     background: rgba(0, 240, 144, 0.08);
     border-color: var(--border-neon);
     color: var(--neon-mint);
+  }
+
+  .nav-actions {
+    display: none !important;
+  }
+
+  /* YÜZEN MOBİL AKSİYON ÇUBUĞU (HEMEN ARA & WHATSAPP) */
+  .mobile-floating-bar {
+    display: flex !important;
+    position: fixed !important;
+    bottom: 12px !important;
+    left: 12px !important;
+    right: 12px !important;
+    background: rgba(8, 11, 17, 0.94) !important;
+    backdrop-filter: blur(24px) !important;
+    -webkit-backdrop-filter: blur(24px) !important;
+    border: 1px solid var(--border-neon) !important;
+    border-radius: var(--radius-full) !important;
+    padding: 6px !important;
+    gap: 8px !important;
+    z-index: 9999 !important;
+    box-shadow: 0 10px 35px rgba(0, 0, 0, 0.85), 0 0 20px rgba(0, 240, 144, 0.2) !important;
+  }
+
+  .mobile-floating-bar a {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    padding: 12px 10px;
+    border-radius: var(--radius-full);
+    font-weight: 700;
+    font-size: 0.92rem;
+    text-align: center;
+    min-height: 44px;
+    box-sizing: border-box;
+  }
+
+  .mobile-floating-bar .call-neon {
+    background: var(--neon-mint);
+    color: #040609;
+    box-shadow: 0 0 15px var(--neon-mint-glow);
+  }
+
+  .mobile-floating-bar .wa-neon {
+    background: #25d366;
+    color: #ffffff;
+    box-shadow: 0 0 15px rgba(37, 211, 102, 0.35);
   }
 
   /* Hero & Tipografi */
@@ -1009,10 +1030,8 @@ html {
   }
   .meta-item .lbl {
     font-size: 0.72rem;
-    line-height: 1.3;
   }
 
-  /* Kartlar & Formlar */
   .glass-card {
     padding: 22px 18px;
     border-radius: var(--radius-lg);
@@ -1024,7 +1043,6 @@ html {
     font-size: clamp(1.7rem, 7vw, 2.1rem);
   }
 
-  /* Bölüm Başlıkları */
   .section {
     padding: 48px 0;
   }
@@ -1034,11 +1052,7 @@ html {
   .section-header h2 {
     font-size: clamp(1.6rem, 5.5vw, 2rem);
   }
-  .section-header p {
-    font-size: 0.95rem;
-  }
 
-  /* Grid Sistemleri */
   .grid-3 {
     grid-template-columns: 1fr;
     gap: 18px;
@@ -1047,7 +1061,6 @@ html {
     padding: 24px 20px;
   }
 
-  /* Semt Matrisi */
   .district-matrix {
     grid-template-columns: repeat(2, 1fr);
     gap: 10px;
@@ -1056,36 +1069,18 @@ html {
     padding: 12px 14px;
     min-height: 48px;
   }
-  .district-card .d-name {
-    font-size: 0.88rem;
-  }
-  .district-card .d-badge {
-    font-size: 0.68rem;
-    padding: 1px 4px;
-  }
 
-  /* Makale ve Blog Okuma */
   .article-paper {
     padding: 24px 18px;
     border-radius: var(--radius-lg);
-    font-size: 0.98rem;
   }
   .article-paper h1 {
     font-size: clamp(1.5rem, 5.5vw, 1.9rem);
-  }
-  .article-paper h2 {
-    font-size: 1.35rem;
-    margin: 28px 0 12px;
-  }
-  .callout-box {
-    padding: 16px 18px;
-    font-size: 0.92rem;
   }
   .sidebar-panel {
     padding: 20px 18px;
   }
 
-  /* Footer */
   .footer {
     padding: 48px 0 28px;
     margin-top: 48px;
@@ -1096,7 +1091,6 @@ html {
   }
 }
 
-/* Küçük Ekranlar (iPhone SE, 320px - 375px) */
 @media (max-width: 400px) {
   .container {
     padding: 0 14px;
@@ -1105,24 +1099,11 @@ html {
     grid-template-columns: 1fr;
     text-align: center;
   }
-  .meta-item {
-    padding: 8px 0;
-    border-bottom: 1px solid var(--border-glass);
-  }
   .district-matrix {
     grid-template-columns: 1fr;
   }
-  .district-card {
-    justify-content: space-between;
-  }
-  .glass-card {
-    padding: 18px 14px;
-  }
-  .form-box select, .form-box input {
-    padding: 10px 12px;
-    font-size: 0.92rem;
-  }
-  .ticker-wrap {
-    font-size: 0.78rem;
+  .mobile-floating-bar a {
+    font-size: 0.84rem;
+    padding: 10px 6px;
   }
 }

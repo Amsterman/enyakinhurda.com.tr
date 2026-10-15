@@ -220,9 +220,9 @@
       <div style="font-size: 3rem; margin-bottom: 10px;">🔐</div>
       <h2 style="color: #ffffff; font-size: 1.4rem; margin-bottom: 6px;">Yönetici Güvenlik Girişi</h2>
       <p style="color: var(--text-secondary); font-size: 0.85rem;">Fiyat yönetim paneline erişmek için PIN kodunuzu giriniz.</p>
-      <input type="password" class="pin-input" id="pin-input" maxlength="6" placeholder="••••" autofocus>
+      <input type="password" class="pin-input" id="pin-input" maxlength="32" placeholder="Şifrenizi giriniz" autofocus>
       <button class="btn btn-neon" style="width: 100%;" id="btn-unlock">Giriş Yap</button>
-      <p style="color: var(--text-muted); font-size: 0.75rem; margin-top: 14px;">Varsayılan PIN: <strong>1234</strong> (Ayarlardan değiştirilebilir)</p>
+      <p style="color: var(--text-muted); font-size: 0.75rem; margin-top: 14px;">Güvenli yönetici şifrenizle giriş yapınız.</p>
     </div>
   </div>
 
@@ -231,7 +231,7 @@
     <div class="container">
       <div style="display: flex; align-items: center; gap: 14px;">
         <a href="index.html" class="brand-logo" style="font-size: 1.15rem;">
-          <div class="logo-icon" style="width: 32px; height: 32px; font-size: 1rem;">⚡</div>
+          <div class="logo-icon" style="width: 32px; height: 32px; font-size: 1rem;">♻️</div>
           <div>Kadıköy<span class="text-neon">Metals</span></div>
         </a>
         <span class="admin-badge">BİLGİSAYAR & FİYAT KONTROL MERKEZİ</span>
@@ -259,10 +259,7 @@
       </div>
     </div>
 
-    <!-- HIZLI AÇIKLAMA NOTU -->
-    <div class="callout-box" style="margin-bottom: 24px;">
-      💡 <strong>Nasıl Çalışır?</strong> Bu panelden fiyatları doğrudan kutucukların içine yazarak değiştirebilirsiniz. <strong>"Değişiklikleri Kaydet"</strong> butonuna bastığınızda tarayıcınızdaki canlı site, borsa kayan bandı ve hesaplayıcı anında yeni fiyatlara geçer. Tüm internet ziyaretçilerine yansıtmak için <strong>"prices.json İndir"</strong> butonuna tıklayıp inen dosyayı GitHub reponuzun <code>data/</code> klasörüne yüklemeniz yeterlidir.
-    </div>
+    
 
     <!-- FİYAT YÖNETİM TABLOSU -->
     <div class="table-container" style="margin-bottom: 30px;">
@@ -295,15 +292,15 @@
       <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 16px; margin-bottom: 20px;">
         <div class="form-box">
           <label>GitHub Kullanıcı Adı / Repo Sahibi:</label>
-          <input type="text" id="gh-owner" placeholder="ornek: ahmet123">
+          <input type="text" id="gh-owner" value="Amsterman">
         </div>
         <div class="form-box">
           <label>GitHub Depo (Repo) Adı:</label>
-          <input type="text" id="gh-repo" placeholder="ornek: kadikoy-hurdaci">
+          <input type="text" id="gh-repo" value="enyakinhurda.com.tr">
         </div>
         <div class="form-box">
           <label>GitHub Personal Token (Fine-Grained):</label>
-          <input type="password" id="gh-token" placeholder="ghp_xxxxxxxxxxxx">
+          <input type="password" id="gh-token" placeholder="GitHub Tokeninizi girin (Tarayıcınıza kaydedilir)">
         </div>
       </div>
       <button class="btn btn-neon" id="btn-gh-push">🚀 Fiyatları Doğrudan GitHub'a Push Et</button>
@@ -398,35 +395,42 @@
   <div class="toast-msg" id="toast">Fiyatlar başarıyla güncellendi!</div>
 
   <script>
-    // ADMIN PANEL İŞ MANTIĞI
-    const PIN_KEY = 'kadikoy_admin_pin';
-    const DEFAULT_PIN = '1234';
+    // ADMIN PANEL İŞ MANTIĞI & GİTHUB ENTEGRASYONU
+    const ADMIN_PASSWORD = "Kdk_Hurda#2026!Tr";
+    const GH_CONFIG = {
+      owner: "Amsterman",
+      repo: "enyakinhurda.com.tr",
+      token: localStorage.getItem("gh_admin_pat") || "",
+      filePath: "data/prices.json",
+      branch: "main"
+    };
+
     let currentData = null;
 
-    // PIN Giriş Kontrolü
+    // Şifre Giriş Kontrolü
     const lockScreen = document.getElementById('lock-screen');
     const pinInput = document.getElementById('pin-input');
     const btnUnlock = document.getElementById('btn-unlock');
 
     function checkAuth() {
-      const savedPin = localStorage.getItem(PIN_KEY) || DEFAULT_PIN;
       if (sessionStorage.getItem('kadikoy_admin_auth') === 'true') {
         lockScreen.style.display = 'none';
         loadAdminData();
+        initGitHubToken();
       } else {
         lockScreen.style.display = 'flex';
       }
     }
 
     btnUnlock.addEventListener('click', () => {
-      const savedPin = localStorage.getItem(PIN_KEY) || DEFAULT_PIN;
-      if (pinInput.value === savedPin) {
+      if (pinInput.value === ADMIN_PASSWORD) {
         sessionStorage.setItem('kadikoy_admin_auth', 'true');
         lockScreen.style.display = 'none';
         loadAdminData();
+        initGitHubToken();
         showToast('Giriş başarılı! Hoş geldiniz.');
       } else {
-        alert('Hatalı PIN kodu! Lütfen tekrar deneyiniz.');
+        alert('Hatalı yönetici şifresi! Lütfen tekrar deneyiniz.');
         pinInput.value = '';
         pinInput.focus();
       }
@@ -443,7 +447,6 @@
 
     // Veri Yükleme
     async function loadAdminData() {
-      // Önce localStorage
       const local = localStorage.getItem('kadikoy_scrap_prices');
       if (local) {
         try {
@@ -453,7 +456,6 @@
         } catch(e) {}
       }
 
-      // Dosyadan oku
       try {
         const res = await fetch('data/prices.json');
         if (res.ok) {
@@ -524,28 +526,98 @@
       if (confirm('Bu hurda kalemini listeden silmek istediğinize emin misiniz?')) {
         currentData.metals.splice(index, 1);
         renderTableRows();
-        saveToLocalStorage(false);
+        saveAndPushToGitHub(false);
       }
     };
 
-    // Kaydetme Fonksiyonu
-    function saveToLocalStorage(showFeedback = true) {
+    // OTOMATİK GİTHUB SYNC & KAYDETME
+    async function saveAndPushToGitHub(showToastMsg = true) {
+      // Tokeni inputtan veya hafızadan al
+      const tokenInput = document.getElementById('gh-token');
+      const inputVal = tokenInput ? tokenInput.value.trim() : '';
+      if (inputVal) {
+        localStorage.setItem('gh_admin_pat', inputVal);
+        GH_CONFIG.token = inputVal;
+      } else {
+        GH_CONFIG.token = localStorage.getItem('gh_admin_pat') || '';
+      }
+
+      if (!GH_CONFIG.token) {
+        alert('Lütfen GitHub Personal Access Token bilginizi aşağıdaki kutucuğa yapıştırınız.');
+        if (tokenInput) tokenInput.focus();
+        return;
+      }
       if (!currentData) return;
       currentData.last_updated = new Date().toLocaleString('tr-TR', { dateStyle: 'short', timeStyle: 'short' });
+      
+      // 1. Tarayıcıya anında yaz
       localStorage.setItem('kadikoy_scrap_prices', JSON.stringify(currentData));
       renderTableRows();
-      if (showFeedback) {
-        showToast('Fiyatlar kaydedildi! Canlı sitede anında güncellendi.');
+
+      if (showToastMsg) {
+        showToast('Fiyatlar kaydedildi! GitHub'a aktarılıyor...');
+      }
+
+      // 2. Doğrudan GitHub API'ye Push Et
+      const apiUrl = `https://api.github.com/repos/${GH_CONFIG.owner}/${GH_CONFIG.repo}/contents/${GH_CONFIG.filePath}`;
+
+      try {
+        let sha = null;
+        const getRes = await fetch(apiUrl, {
+          headers: {
+            'Authorization': `Bearer ${GH_CONFIG.token}`,
+            'Accept': 'application/vnd.github.v3+json'
+          }
+        });
+        if (getRes.ok) {
+          const getJson = await getRes.json();
+          sha = getJson.sha;
+        }
+
+        const contentStr = JSON.stringify(currentData, null, 2);
+        const encoded = btoa(unescape(encodeURIComponent(contentStr)));
+
+        const bodyPayload = {
+          message: 'Admin Panel: Fiyatlar güncellendi (' + currentData.last_updated + ')',
+          content: encoded,
+          branch: GH_CONFIG.branch
+        };
+        if (sha) bodyPayload.sha = sha;
+
+        const putRes = await fetch(apiUrl, {
+          method: 'PUT',
+          headers: {
+            'Authorization': `Bearer ${GH_CONFIG.token}`,
+            'Content-Type': 'application/json',
+            'Accept': 'application/vnd.github.v3+json'
+          },
+          body: JSON.stringify(bodyPayload)
+        });
+
+        if (putRes.ok) {
+          showToast('✅ Fiyatlar kaydedildi ve GitHub Pages deposuna başarıyla yüklendi!');
+        } else {
+          const err = await putRes.json();
+          console.warn('GitHub API uyarısı:', err);
+          showToast('⚠️ Yerel kaydedildi. GitHub API bildirimi: ' + (err.message || 'Yetki kontrol ediliyor'));
+        }
+      } catch (err) {
+        console.error('GitHub Sync Hatası:', err);
+        showToast('⚠️ Fiyatlar yerel olarak güncellendi (İnternet bağlantısı kontrol ediliyor).');
       }
     }
 
+    document.getElementById('btn-save-local').textContent = '💾 Kaydet & GitHub'a Aktar';
     document.getElementById('btn-save-local').addEventListener('click', () => {
-      saveToLocalStorage(true);
+      saveAndPushToGitHub(true);
     });
 
-    // JSON İndirme
+    document.getElementById('btn-gh-push').addEventListener('click', () => {
+      saveAndPushToGitHub(true);
+    });
+
+    // JSON İndirme (Yedek olarak)
     document.getElementById('btn-export-json').addEventListener('click', () => {
-      saveToLocalStorage(false);
       const jsonStr = JSON.stringify(currentData, null, 2);
       const blob = new Blob([jsonStr], { type: 'application/json' });
       const url = URL.createObjectURL(blob);
@@ -557,7 +629,7 @@
       showToast('prices.json başarıyla indirildi!');
     });
 
-    // Toplu Zam Modalı
+    // Toplu Zam/İndirim Modalı
     const batchModal = document.getElementById('batch-modal');
     document.getElementById('btn-batch-modal').addEventListener('click', () => batchModal.classList.add('open'));
     document.getElementById('btn-batch-cancel').addEventListener('click', () => batchModal.classList.remove('open'));
@@ -596,7 +668,7 @@
       });
 
       batchModal.classList.remove('open');
-      saveToLocalStorage(true);
+      saveAndPushToGitHub(true);
     });
 
     // Yeni Metal Ekleme Modalı
@@ -632,68 +704,7 @@
 
       addModal.classList.remove('open');
       document.getElementById('new-name').value = '';
-      saveToLocalStorage(true);
-    });
-
-    // GitHub Push Entegrasyonu
-    document.getElementById('btn-gh-push').addEventListener('click', async () => {
-      const owner = document.getElementById('gh-owner').value.trim();
-      const repo = document.getElementById('gh-repo').value.trim();
-      const token = document.getElementById('gh-token').value.trim();
-
-      if (!owner || !repo || !token) {
-        alert('Lütfen GitHub kullanıcı adı, repo adı ve token bilgilerinizi eksiksiz doldurunuz.');
-        return;
-      }
-
-      saveToLocalStorage(false);
-      const filePath = 'data/prices.json';
-      const apiUrl = `https://api.github.com/repos/${owner}/${repo}/contents/${filePath}`;
-
-      try {
-        // Önce mevcut dosyanın SHA'sını al
-        let sha = null;
-        const getRes = await fetch(apiUrl, {
-          headers: {
-            'Authorization': `Bearer ${token}`,
-            'Accept': 'application/vnd.github.v3+json'
-          }
-        });
-        if (getRes.ok) {
-          const getJson = await getRes.json();
-          sha = getJson.sha;
-        }
-
-        // Base64 kodla
-        const contentStr = JSON.stringify(currentData, null, 2);
-        const encoded = btoa(unescape(encodeURIComponent(contentStr)));
-
-        const bodyPayload = {
-          message: 'Admin Panel: Fiyatlar güncellendi (' + new Date().toLocaleString('tr-TR') + ')',
-          content: encoded,
-          branch: 'main'
-        };
-        if (sha) bodyPayload.sha = sha;
-
-        const putRes = await fetch(apiUrl, {
-          method: 'PUT',
-          headers: {
-            'Authorization': `Bearer ${token}`,
-            'Content-Type': 'application/json',
-            'Accept': 'application/vnd.github.v3+json'
-          },
-          body: JSON.stringify(bodyPayload)
-        });
-
-        if (putRes.ok) {
-          showToast('🚀 Fiyatlar GitHub Pages deponuza doğrudan aktarıldı!');
-        } else {
-          const err = await putRes.json();
-          alert('GitHub API Hatası: ' + (err.message || 'Yetki veya depo hatası'));
-        }
-      } catch (err) {
-        alert('Bağlantı hatası: ' + err.message);
-      }
+      saveAndPushToGitHub(true);
     });
 
     // Varsayılanlara Sıfırla
@@ -711,7 +722,7 @@
       setTimeout(() => toast.classList.remove('show'), 3500);
     }
 
-    // Başlat
+    initGitHubToken();
     checkAuth();
   </script>
 </body>

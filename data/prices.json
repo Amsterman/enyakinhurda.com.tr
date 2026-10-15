@@ -1,5 +1,5 @@
 {
-  "last_updated": "2026-10-13 10:45",
+  "last_updated": "15.10.2026 13:18",
   "market_note": "LME ve Serbest Piyasa Tavan Fiyatları",
   "metals": [
     {
@@ -7,7 +7,7 @@
       "name": "Soyma Bakır Hurdası",
       "category": "bakir",
       "spec": "Plastik kılıfsız, yanmamış saf parlak tel",
-      "min_price": 375,
+      "min_price": 380,
       "max_price": 390,
       "calc_price": 380,
       "unit": "TL/Kg",
@@ -103,7 +103,7 @@
       "name": "DKP Sac Demir Hurdası",
       "category": "demir",
       "spec": "Temiz fabrika sacı, lazer kesim artıkları",
-      "min_price": 12.0,
+      "min_price": 12,
       "max_price": 13.5,
       "calc_price": 12.5,
       "unit": "TL/Kg",
@@ -117,7 +117,7 @@
       "spec": "Kentsel dönüşüm bina beton demiri, hasır çelik",
       "min_price": 10.5,
       "max_price": 11.8,
-      "calc_price": 11.0,
+      "calc_price": 11,
       "unit": "TL/Kg",
       "trend": "Stabil",
       "active": true
@@ -127,9 +127,9 @@
       "name": "Paslanmaz Krom 304",
       "category": "diger",
       "spec": "Endüstriyel mutfak ve sanayi tezgahları",
-      "min_price": 55.0,
-      "max_price": 62.0,
-      "calc_price": 58.0,
+      "min_price": 55,
+      "max_price": 62,
+      "calc_price": 58,
       "unit": "TL/Kg",
       "trend": "▲ +%0.4",
       "active": true
@@ -139,9 +139,9 @@
       "name": "Hurda Akü (Kuru/Sulu/Jel)",
       "category": "diger",
       "spec": "Otomobil, marin ve UPS kurşun-asit aküleri",
-      "min_price": 32.0,
-      "max_price": 38.0,
-      "calc_price": 35.0,
+      "min_price": 32,
+      "max_price": 38,
+      "calc_price": 35,
       "unit": "TL/Kg",
       "trend": "Stabil",
       "active": true

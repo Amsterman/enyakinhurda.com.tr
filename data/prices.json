@@ -1,5 +1,5 @@
 {
-  "last_updated": "15.10.2026 13:10",
+  "last_updated": "15.10.2026 13:11",
   "market_note": "LME ve Serbest Piyasa Tavan Fiyatları",
   "metals": [
     {
@@ -8,7 +8,7 @@
       "category": "bakir",
       "spec": "Plastik kılıfsız, yanmamış saf parlak tel",
       "min_price": 380,
-      "max_price": 390,
+      "max_price": 400,
       "calc_price": 380,
       "unit": "TL/Kg",
       "trend": "▲ +%1.4",

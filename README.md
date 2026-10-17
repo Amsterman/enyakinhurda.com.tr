@@ -12,7 +12,7 @@
 
 Sitedeki tüm borsa kurlarını, hurda fiyatlarını ve hesaplayıcıyı tek tıkla güncellemek için:
 
-* **Panel Adresi:** `admin.html` (veya canlıda `https://enyakinhurda.com.tr/admin.html`)
+* **Panel Adresi:** `` (veya canlıda ``)
 * **Yönetici Giriş Şifresi:** `Kdk_Hurda#2026!Tr`
 
 ### Otomatik GitHub Entegrasyonu:

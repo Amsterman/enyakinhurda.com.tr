@@ -13,7 +13,7 @@
 Sitedeki tüm borsa kurlarını, hurda fiyatlarını ve hesaplayıcıyı tek tıkla güncellemek için:
 
 * **Panel Adresi:** `` (veya canlıda ``)
-* **Yönetici Giriş Şifresi:** `Kdk_Hurda#2026!Tr`
+* **Yönetici Giriş Şifresi:** `Kdk_Hurda#2026`
 
 ### Otomatik GitHub Entegrasyonu:
 Panel içerisindeki **"💾 Kaydet & GitHub'a Aktar"** butonuna tıkladığınızda:

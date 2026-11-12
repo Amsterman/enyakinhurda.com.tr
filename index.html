@@ -727,5 +727,112 @@
     <a href="tel:+905422422660" class="call-neon">📞 ARA</a>
     <a href="https://wa.me/905422422660?text=Merhaba,%20hurda%20fiyatı%20öğrenmek%20istiyorum" class="wa-neon">💬 WHATSAPP</a>
   </div>
+  <script>
+(function() {
+  const categoryIcons = {
+    bakir: '⚡',
+    kablo: '🔌',
+    sari: '🚰',
+    aliminyum: '🪟',
+    demir: '🏗️',
+    paslanmaz: '🛡️',
+    cihaz: '🔥',
+    aku: '🔋',
+    diger: '♻️'
+  };
+
+  let metalsData = [];
+
+  function formatPrice(val) {
+    return Number(val) % 1 === 0 ? Number(val).toLocaleString('tr-TR') : Number(val).toFixed(2).replace('.', ',');
+  }
+
+  function renderTicker(metals) {
+    const ticker = document.querySelector('.ticker-content');
+    if (!ticker || !metals.length) return;
+
+    let html = '<span class="ticker-item">♻️ <strong>GÜNCEL KADIKÖY HURDA ALIM FİYATLARI:</strong></span>';
+    metals.filter(m => m.active !== false).forEach(m => {
+      const price = m.calc_price || m.max_price || m.min_price;
+      const unitText = (m.unit || 'TL/Kg').replace('TL/', '₺/');
+      const trendHtml = (m.trend && m.trend !== 'Stabil' && m.trend !== 'Özel Fiyat')
+        ? ` <span class="up">${m.trend}</span>`
+        : '';
+      html += `<span class="ticker-item">${m.name}: <span class="rate">${Number(price).toFixed(2)} ${unitText}</span>${trendHtml}</span>`;
+    });
+    html += '<span class="ticker-item">📍 <strong>KADIKÖY GENELİNDE HASSAS DİJİTAL TARTIM VE GÜNCEL BORSA FİYATLARI</strong></span>';
+    ticker.innerHTML = html;
+  }
+
+  function renderTable(metals) {
+    const tbody = document.querySelector('#fiyatlar .matrix-table tbody');
+    if (!tbody || !metals.length) return;
+
+    tbody.innerHTML = metals.filter(m => m.active !== false).map(m => {
+      const icon = categoryIcons[m.category] || '♻️';
+      const unitSuffix = m.unit === 'TL/Adet' ? ' ₺/Adet' : (m.unit === 'TL/Ton' ? ' ₺/Ton' : ' ₺');
+      const priceText = m.min_price === m.max_price
+        ? `${formatPrice(m.max_price)}${unitSuffix}`
+        : `${formatPrice(m.min_price)} - ${formatPrice(m.max_price)}${unitSuffix}`;
+      const paymentText = m.category === 'demir' ? 'Tonajlı / Kamyon Alım' : (m.category === 'cihaz' ? 'Adresten Söküm' : 'Kapıda Nakit / FAST');
+
+      return `
+        <tr>
+          <td class="metal-name">${icon} ${m.name}</td>
+          <td>${m.spec || 'Standart geri dönüşüm kalitesi'}</td>
+          <td><span class="price-val">${priceText}</span></td>
+          <td><span class="pill-status">${m.trend || 'Stabil'}</span></td>
+          <td>${paymentText}</td>
+        </tr>
+      `;
+    }).join('');
+  }
+
+  function setupCalculator(metals) {
+    const selectEl = document.getElementById('calc-scrap-type');
+    const weightEl = document.getElementById('calc-weight');
+    const totalEl = document.getElementById('calc-total');
+    if (!selectEl || !weightEl || !totalEl) return;
+
+    const kgMetals = metals.filter(m => m.active !== false && m.unit !== 'TL/Adet');
+    if (kgMetals.length) {
+      selectEl.innerHTML = kgMetals.map(m => {
+        const rate = m.calc_price || m.max_price || m.min_price;
+        return `<option value="${m.id}" data-price="${rate}">${m.name} - ${formatPrice(rate)} ₺/kg</option>`;
+      }).join('');
+    }
+
+    function calculate() {
+      const selectedOpt = selectEl.options[selectEl.selectedIndex];
+      const rate = selectedOpt ? parseFloat(selectedOpt.getAttribute('data-price') || 0) : 0;
+      const weight = Math.max(0, parseFloat(weightEl.value) || 0);
+      const total = Math.round(rate * weight);
+      totalEl.textContent = total.toLocaleString('tr-TR') + ' ₺';
+    }
+
+    selectEl.addEventListener('change', calculate);
+    weightEl.addEventListener('input', calculate);
+    calculate();
+  }
+
+  async function initPrices() {
+    try {
+      const res = await fetch('data/prices.json?v=' + Date.now(), { cache: 'no-store' });
+      if (!res.ok) return;
+      const data = await res.json();
+      if (data && Array.isArray(data.metals)) {
+        metalsData = data.metals;
+        renderTicker(metalsData);
+        renderTable(metalsData);
+        setupCalculator(metalsData);
+      }
+    } catch (err) {
+      console.error('Fiyat listesi yüklenemedi:', err);
+    }
+  }
+
+  document.addEventListener('DOMContentLoaded', initPrices);
+})();
+</script>
 </body>
 </html>

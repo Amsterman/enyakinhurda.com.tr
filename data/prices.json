@@ -1,5 +1,5 @@
 {
-  "last_updated": "12.11.2026 20:16",
+  "last_updated": "12.11.2026 20:19",
   "market_note": "LME ve Serbest Piyasa Tavan Fiyatları",
   "metals": [
     {
@@ -40,7 +40,7 @@
     },
     {
       "id": "ttr-kablo",
-      "name": "Hurda TTR Kablo",
+      "name": "Kablo Hurdası",
       "category": "kablo",
       "spec": "Plastik kılıflı çok damarlı elektrik kabloları",
       "min_price": 155,
@@ -48,18 +48,6 @@
       "calc_price": 155,
       "unit": "TL/Kg",
       "trend": "▲ +%0.6",
-      "active": true
-    },
-    {
-      "id": "antigron-kablo",
-      "name": "Antigron Kablo Hurdası",
-      "category": "kablo",
-      "spec": "Sıva altı tek damar sert tesisat kablosu",
-      "min_price": 150,
-      "max_price": 170,
-      "calc_price": 160,
-      "unit": "TL/Kg",
-      "trend": "Stabil",
       "active": true
     },
     {

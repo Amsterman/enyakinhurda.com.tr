@@ -17,15 +17,13 @@ function toggleMobileMenu(e) {
 }
 window.toggleMobileMenu = toggleMobileMenu;
 
-document.addEventListener('DOMContentLoaded', () => {
+document.addEventListener('DOMContentLoaded', async () => {
   const toggleBtn = document.querySelector('.menu-toggle');
   const navMenu = document.querySelector('.nav-menu');
   
   if (toggleBtn && navMenu) {
-    // Add event listeners as backup to inline onclick
     toggleBtn.addEventListener('click', toggleMobileMenu);
 
-    // Menüdeki bir linke tıklandığında menüyü kapat
     navMenu.querySelectorAll('a').forEach(link => {
       link.addEventListener('click', () => {
         navMenu.classList.remove('open');
@@ -36,7 +34,6 @@ document.addEventListener('DOMContentLoaded', () => {
       });
     });
 
-    // Menü dışına tıklandığında kapat
     document.addEventListener('click', (e) => {
       if (navMenu.classList.contains('open') && !navMenu.contains(e.target) && !toggleBtn.contains(e.target)) {
         navMenu.classList.remove('open');
@@ -47,7 +44,6 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     });
 
-    // ESC tuşuna basıldığında kapat
     document.addEventListener('keydown', (e) => {
       if (e.key === 'Escape' && navMenu.classList.contains('open')) {
         navMenu.classList.remove('open');
@@ -59,7 +55,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  // FAQ Accordion (Fail-safe with inline onclick)
+  // FAQ Accordion
   window.toggleFaq = window.toggleFaq || function(btn) {
     const box = btn.closest('.faq-box, .faq-item');
     if (!box) return false;
@@ -98,5 +94,73 @@ document.addEventListener('DOMContentLoaded', () => {
     calcScrapType.addEventListener('change', calculate);
     calcWeight.addEventListener('input', calculate);
     calculate();
+  }
+
+  // Dynamic Prices Sync from data/prices.json
+  const categoryIcons = {
+    bakir: '⚡', kablo: '🔌', sari: '🚰', aliminyum: '🪟',
+    demir: '🏗️', paslanmaz: '🛡️', cihaz: '🔥', aku: '🔋', diger: '♻️'
+  };
+
+  const fmtPrice = (val) => Number(val) % 1 === 0
+    ? Number(val).toLocaleString('tr-TR')
+    : Number(val).toFixed(2).replace('.', ',');
+
+  try {
+    const res = await fetch('data/prices.json?v=' + Date.now(), { cache: 'no-store' });
+    if (!res.ok) return;
+    const data = await res.json();
+    const metals = (data && Array.isArray(data.metals)) ? data.metals.filter(m => m.active !== false) : [];
+    if (!metals.length) return;
+
+    // 1. Ticker Bandı Güncelle
+    const ticker = document.querySelector('.ticker-content');
+    if (ticker) {
+      let html = '<span class="ticker-item">♻️ <strong>GÜNCEL KADIKÖY HURDA ALIM FİYATLARI:</strong></span>';
+      metals.forEach(m => {
+        const price = m.calc_price || m.max_price || m.min_price;
+        const unitText = (m.unit || 'TL/Kg').replace('TL/', '₺/');
+        const trendHtml = (m.trend && m.trend !== 'Stabil' && m.trend !== 'Özel Fiyat')
+          ? ` <span class="up">${m.trend}</span>`
+          : '';
+        html += `<span class="ticker-item">${m.name}: <span class="rate">${Number(price).toFixed(2)} ${unitText}</span>${trendHtml}</span>`;
+      });
+      html += '<span class="ticker-item">📍 <strong>KADIKÖY GENELİNDE HASSAS DİJİTAL TARTIM VE GÜNCEL BORSA FİYATLARI</strong></span>';
+      ticker.innerHTML = html;
+    }
+
+    // 2. Fiyat Tablosu Güncelle
+    const tbody = document.querySelector('#fiyatlar .matrix-table tbody');
+    if (tbody) {
+      tbody.innerHTML = metals.map(m => {
+        const icon = categoryIcons[m.category] || '♻️';
+        const suffix = m.unit === 'TL/Adet' ? ' ₺/Adet' : (m.unit === 'TL/Ton' ? ' ₺/Ton' : ' ₺');
+        const range = m.min_price === m.max_price
+          ? `${fmtPrice(m.max_price)}${suffix}`
+          : `${fmtPrice(m.min_price)} - ${fmtPrice(m.max_price)}${suffix}`;
+        const pay = m.category === 'demir' ? 'Tonajlı / Kamyon Alım' : (m.category === 'cihaz' ? 'Adresten Söküm' : 'Kapıda Nakit / FAST');
+        return `<tr>
+          <td class="metal-name">${icon} ${m.name}</td>
+          <td>${m.spec || 'Standart geri dönüşüm kalitesi'}</td>
+          <td><span class="price-val">${range}</span></td>
+          <td><span class="pill-status">${m.trend || 'Stabil'}</span></td>
+          <td>${pay}</td>
+        </tr>`;
+      }).join('');
+    }
+
+    // 3. Hesaplayıcı Seçeneklerini Güncelle
+    if (calcScrapType) {
+      const kgMetals = metals.filter(m => m.unit !== 'TL/Adet');
+      if (kgMetals.length) {
+        calcScrapType.innerHTML = kgMetals.map(m => {
+          const rate = m.calc_price || m.max_price || m.min_price;
+          return `<option value="${m.id}" data-price="${rate}">${m.name} - ${fmtPrice(rate)} ₺/kg</option>`;
+        }).join('');
+        calculate();
+      }
+    }
+  } catch (err) {
+    console.error('Fiyat listesi yüklenemedi:', err);
   }
 });

@@ -1155,3 +1155,109 @@ html {
     padding: 10px 4px;
   }
 }
+
+
+/* ========================================================
+   MASAÜSTÜ TİPOGRAFİ VE MENÜ DÜZELTMESİ (yazılar büyük görünüyordu)
+   Sadece 769px ve üzeri ekranlarda geçerli, mobil kurallar etkilenmez.
+   ======================================================== */
+@media (min-width: 769px) {
+  /* Menü: öğeler iki satıra bölünmesin */
+  .navbar {
+    gap: 20px;
+    padding: 12px 0;
+  }
+  .brand-logo {
+    font-size: 1.15rem;
+    white-space: nowrap;
+    flex-shrink: 0;
+  }
+  .nav-menu {
+    gap: 16px;
+    flex-wrap: nowrap;
+  }
+  .nav-menu a {
+    font-size: 0.84rem;
+    white-space: nowrap;
+    display: inline-flex;
+    align-items: center;
+    min-height: 0;
+  }
+  .nav-actions .btn {
+    white-space: nowrap;
+  }
+
+  /* Başlıklar ve gövde yazıları küçültüldü */
+  .hero h1 {
+    font-size: 2.5rem;
+    letter-spacing: -0.5px;
+    line-height: 1.2;
+    margin-bottom: 16px;
+  }
+  .hero p.lead {
+    font-size: 1.02rem;
+    line-height: 1.65;
+    margin-bottom: 26px;
+  }
+  .hero-cta .btn {
+    padding: 12px 24px;
+    font-size: 0.95rem;
+  }
+  .meta-item .val {
+    font-size: 1.5rem;
+  }
+  .calc-display .price-output {
+    font-size: 1.9rem;
+  }
+  .section {
+    padding: 60px 0;
+  }
+  .section-header {
+    margin-bottom: 40px;
+  }
+  .section-header h2 {
+    font-size: 1.9rem;
+  }
+  .section-header p {
+    font-size: 0.98rem;
+  }
+  .article-paper {
+    padding: 36px;
+    font-size: 1rem;
+    line-height: 1.8;
+  }
+  .article-paper h1 {
+    font-size: 2rem;
+  }
+  .article-paper h2 {
+    font-size: 1.4rem;
+  }
+}
+
+/* Dar masaüstü / tablet: menüyü sığdırmak için sağdaki İletişim butonunu gizle */
+@media (min-width: 769px) and (max-width: 1100px) {
+  .nav-actions {
+    display: none;
+  }
+  .nav-menu {
+    gap: 12px;
+  }
+  .nav-menu a {
+    font-size: 0.8rem;
+  }
+}
+
+/* Tablet (769-1000px): menü alt satıra inip ortalansın, yatay taşma olmasın */
+@media (min-width: 769px) and (max-width: 1000px) {
+  .navbar {
+    flex-wrap: wrap;
+    justify-content: center;
+    row-gap: 8px;
+  }
+  .nav-menu {
+    flex-wrap: wrap;
+    justify-content: center;
+    width: 100%;
+    gap: 6px 14px;
+  }
+}

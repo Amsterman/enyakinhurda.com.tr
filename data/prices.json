@@ -103,7 +103,7 @@
       "name": "DKP Sac Demir Hurdası",
       "category": "demir",
       "spec": "Temiz fabrika sacı, lazer kesim artıkları",
-      "min_price": 12,
+      "min_price": 12.5,
       "max_price": 13.5,
       "calc_price": 12.5,
       "unit": "TL/Kg",

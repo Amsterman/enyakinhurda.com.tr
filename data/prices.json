@@ -79,9 +79,9 @@
       "name": "Alüminyum Profil Doğrama",
       "category": "aliminyum",
       "spec": "Pimapen çıtaları, pencere ve kapı doğramaları",
-      "min_price": 105,
+      "min_price": 100,
       "max_price": 118,
-      "calc_price": 110,
+      "calc_price": 100,
       "unit": "TL/Kg",
       "trend": "Stabil",
       "active": true

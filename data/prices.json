@@ -1,5 +1,5 @@
 {
-  "last_updated": "12.11.2026 20:19",
+  "last_updated": "12.11.2026 20:20",
   "market_note": "LME ve Serbest Piyasa Tavan Fiyatları",
   "metals": [
     {
@@ -11,7 +11,7 @@
       "max_price": 585,
       "calc_price": 585,
       "unit": "TL/Kg",
-      "trend": "▲ +%1.4",
+      "trend": "Stabil",
       "active": true
     },
     {
@@ -23,7 +23,7 @@
       "max_price": 550,
       "calc_price": 550,
       "unit": "TL/Kg",
-      "trend": "▲ +%0.9",
+      "trend": "Stabil",
       "active": true
     },
     {
@@ -35,7 +35,7 @@
       "max_price": 525,
       "calc_price": 525,
       "unit": "TL/Kg",
-      "trend": "▲ +%1.1",
+      "trend": "Stabil",
       "active": true
     },
     {
@@ -47,7 +47,7 @@
       "max_price": 165,
       "calc_price": 155,
       "unit": "TL/Kg",
-      "trend": "▲ +%0.6",
+      "trend": "Stabil",
       "active": true
     },
     {
@@ -59,12 +59,12 @@
       "max_price": 300,
       "calc_price": 300,
       "unit": "TL/Kg",
-      "trend": "▲ +%1.2",
+      "trend": "Stabil",
       "active": true
     },
     {
       "id": "aliminyum-profil",
-      "name": "Alüminyum Profil Doğrama",
+      "name": "Alüminyum",
       "category": "aliminyum",
       "spec": "Pimapen çıtaları, pencere ve kapı doğramaları",
       "min_price": 100,
@@ -72,18 +72,6 @@
       "calc_price": 100,
       "unit": "TL/Kg",
       "trend": "Stabil",
-      "active": true
-    },
-    {
-      "id": "aliminyum-jant",
-      "name": "Hurda Alüminyum Jant",
-      "category": "aliminyum",
-      "spec": "Otomobil alaşım jant hurdaları (temiz)",
-      "min_price": 115,
-      "max_price": 130,
-      "calc_price": 120,
-      "unit": "TL/Kg",
-      "trend": "▲ +%0.5",
       "active": true
     },
     {

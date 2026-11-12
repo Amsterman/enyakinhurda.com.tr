@@ -1,5 +1,5 @@
 {
-  "last_updated": "12.11.2026 19:08",
+  "last_updated": "12.11.2026 19:09",
   "market_note": "LME ve Serbest Piyasa Tavan Fiyatları",
   "metals": [
     {
@@ -7,7 +7,7 @@
       "name": "Soyma Bakır Hurdası",
       "category": "bakir",
       "spec": "Plastik kılıfsız, yanmamış saf parlak tel",
-      "min_price": 380,
+      "min_price": 585,
       "max_price": 585,
       "calc_price": 380,
       "unit": "TL/Kg",
@@ -19,7 +19,7 @@
       "name": "Lama Bakır Hurdası",
       "category": "bakir",
       "spec": "Trafo ve elektrik panosu baraları",
-      "min_price": 360,
+      "min_price": 551,
       "max_price": 550,
       "calc_price": 365,
       "unit": "TL/Kg",

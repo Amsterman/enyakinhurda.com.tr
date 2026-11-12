@@ -1,5 +1,5 @@
 {
-  "last_updated": "12.11.2026 20:09",
+  "last_updated": "12.11.2026 20:12",
   "market_note": "LME ve Serbest Piyasa Tavan Fiyatları",
   "metals": [
     {
@@ -9,7 +9,7 @@
       "spec": "Plastik kılıfsız, yanmamış saf parlak tel",
       "min_price": 585,
       "max_price": 585,
-      "calc_price": 380,
+      "calc_price": 585,
       "unit": "TL/Kg",
       "trend": "▲ +%1.4",
       "active": true
@@ -21,7 +21,7 @@
       "spec": "Trafo ve elektrik panosu baraları",
       "min_price": 551,
       "max_price": 550,
-      "calc_price": 365,
+      "calc_price": 550,
       "unit": "TL/Kg",
       "trend": "▲ +%0.9",
       "active": true

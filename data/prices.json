@@ -131,7 +131,7 @@
       "max_price": 2500,
       "calc_price": 2500,
       "unit": "TL/Adet",
-      "trend": "Özel Fiyat",
+      "trend": "▲ +%1.4",
       "active": true
     },
     {
@@ -143,7 +143,7 @@
       "max_price": 3200,
       "calc_price": 2200,
       "unit": "TL/Adet",
-      "trend": "Özel Fiyat",
+      "trend": "▲ +%1.4",
       "active": true
     }
   ]

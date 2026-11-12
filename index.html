@@ -27,14 +27,13 @@
   <meta name="geo.placename" content="Kadıköy, İstanbul">
   <meta name="geo.position" content="40.9928;29.0435">
   <meta name="ICBM" content="40.9928, 29.0435">
-    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
   <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
   <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
   <link rel="manifest" href="/site.webmanifest">
   <link rel="shortcut icon" href="/favicon.ico">
   <meta name="theme-color" content="#07090e">
   <link rel="stylesheet" href="css/style.css">
-  
 
   <script type="application/ld+json">
 {
@@ -202,9 +201,6 @@
 </head>
 <body>
 
-
-  
-
   <!-- CANLI BORSA TICKER BANDI -->
   <div class="ticker-wrap">
     <div class="ticker-content">
@@ -225,7 +221,6 @@
 
   <!-- CLEAN GLASS HEADER -->
   <header class="header">
-
     <div class="container">
       <nav class="navbar">
         <a href="index.html" class="brand-logo">
@@ -243,7 +238,6 @@
           <li><a href="bostanci-hurdaci.html" class="">Bostancı</a></li>
           <li><a href="fikirtepe-hurdaci.html" class="">Fikirtepe</a></li>
           <li><a href="blog/index.html" class="">Rehber</a></li>
-        
         </ul>
         <div class="nav-actions">
           <a href="index.html#iletisim" class="btn btn-glass" style="font-size: 0.85rem; padding: 8px 16px;">İletişim</a>
@@ -251,7 +245,6 @@
       </nav>
     </div>
   </header>
-
 
   <!-- HERO SECTION -->
   <section class="hero">
@@ -533,7 +526,6 @@
     </div>
   </section>
 
-  
   <!-- ANADOLU YAKASI TÜM İLÇELER KAPSAMA AĞI -->
   <section class="section" style="padding-top: 20px;">
     <div class="container">
@@ -674,9 +666,7 @@
     </div>
   </section>
 
-
-  
-    <!-- FOOTER -->
+  <!-- FOOTER -->
   <footer class="footer" id="iletisim">
     <div class="container">
       <div class="footer-grid">
@@ -718,14 +708,115 @@
     </div>
   </footer>
 
-<!-- YÜZEN MOBİL AKSİYON ÇUBUĞU (HEMEN ARA & WHATSAPP) -->
-
-
   <!-- YÜZEN MOBİL AKSİYON ÇUBUĞU (KUSURSUZ SIĞAN 'ARA' & 'WHATSAPP') -->
-
-<div class="mobile-floating-bar">
+  <div class="mobile-floating-bar">
     <a href="tel:+905422422660" class="call-neon">📞 ARA</a>
     <a href="https://wa.me/905422422660?text=Merhaba,%20hurda%20fiyatı%20öğrenmek%20istiyorum" class="wa-neon">💬 WHATSAPP</a>
   </div>
+
+  <script>
+  (function() {
+    const categoryIcons = {
+      bakir: '⚡',
+      kablo: '🔌',
+      sari: '🚰',
+      aliminyum: '🪟',
+      demir: '🏗️',
+      paslanmaz: '🛡️',
+      cihaz: '🔥',
+      aku: '🔋',
+      diger: '♻️'
+    };
+
+    function formatPrice(val) {
+      return Number(val) % 1 === 0 ? Number(val).toLocaleString('tr-TR') : Number(val).toFixed(2).replace('.', ',');
+    }
+
+    function renderTicker(metals) {
+      const ticker = document.querySelector('.ticker-content');
+      if (!ticker || !metals.length) return;
+
+      let html = '<span class="ticker-item">♻️ <strong>GÜNCEL KADIKÖY HURDA ALIM FİYATLARI:</strong></span>';
+      metals.filter(m => m.active !== false).forEach(m => {
+        const price = m.calc_price || m.max_price || m.min_price;
+        const unitText = (m.unit || 'TL/Kg').replace('TL/', '₺/');
+        const trendHtml = (m.trend && m.trend !== 'Stabil' && m.trend !== 'Özel Fiyat')
+          ? ` <span class="up">${m.trend}</span>`
+          : '';
+        html += `<span class="ticker-item">${m.name}: <span class="rate">${Number(price).toFixed(2)} ${unitText}</span>${trendHtml}</span>`;
+      });
+      html += '<span class="ticker-item">📍 <strong>KADIKÖY GENELİNDE HASSAS DİJİTAL TARTIM VE GÜNCEL BORSA FİYATLARI</strong></span>';
+      ticker.innerHTML = html;
+    }
+
+    function renderTable(metals) {
+      const tbody = document.querySelector('#fiyatlar .matrix-table tbody');
+      if (!tbody || !metals.length) return;
+
+      tbody.innerHTML = metals.filter(m => m.active !== false).map(m => {
+        const icon = categoryIcons[m.category] || '♻️';
+        const unitSuffix = m.unit === 'TL/Adet' ? ' ₺/Adet' : (m.unit === 'TL/Ton' ? ' ₺/Ton' : ' ₺');
+        const priceText = m.min_price === m.max_price
+          ? `${formatPrice(m.max_price)}${unitSuffix}`
+          : `${formatPrice(m.min_price)} - ${formatPrice(m.max_price)}${unitSuffix}`;
+        const paymentText = m.category === 'demir' ? 'Tonajlı / Kamyon Alım' : (m.category === 'cihaz' ? 'Adresten Söküm' : 'Kapıda Nakit / FAST');
+
+        return `
+          <tr>
+            <td class="metal-name">${icon} ${m.name}</td>
+            <td>${m.spec || 'Standart geri dönüşüm kalitesi'}</td>
+            <td><span class="price-val">${priceText}</span></td>
+            <td><span class="pill-status">${m.trend || 'Stabil'}</span></td>
+            <td>${paymentText}</td>
+          </tr>
+        `;
+      }).join('');
+    }
+
+    function setupCalculator(metals) {
+      const selectEl = document.getElementById('calc-scrap-type');
+      const weightEl = document.getElementById('calc-weight');
+      const totalEl = document.getElementById('calc-total');
+      if (!selectEl || !weightEl || !totalEl) return;
+
+      const kgMetals = metals.filter(m => m.active !== false && m.unit !== 'TL/Adet');
+      if (kgMetals.length) {
+        selectEl.innerHTML = kgMetals.map(m => {
+          const rate = m.calc_price || m.max_price || m.min_price;
+          return `<option value="${m.id}" data-price="${rate}">${m.name} - ${formatPrice(rate)} ₺/kg</option>`;
+        }).join('');
+      }
+
+      function calculate() {
+        const selectedOpt = selectEl.options[selectEl.selectedIndex];
+        const rate = selectedOpt ? parseFloat(selectedOpt.getAttribute('data-price') || 0) : 0;
+        const weight = Math.max(0, parseFloat(weightEl.value) || 0);
+        const total = Math.round(rate * weight);
+        totalEl.textContent = total.toLocaleString('tr-TR') + ' ₺';
+      }
+
+      selectEl.addEventListener('change', calculate);
+      weightEl.addEventListener('input', calculate);
+      calculate();
+    }
+
+    async function initPrices() {
+      try {
+        const res = await fetch('data/prices.json?v=' + Date.now(), { cache: 'no-store' });
+        if (!res.ok) return;
+        const data = await res.json();
+        if (data && Array.isArray(data.metals)) {
+          renderTicker(data.metals);
+          renderTable(data.metals);
+          setupCalculator(data.metals);
+        }
+      } catch (err) {
+        console.error('Fiyat listesi yüklenemedi:', err);
+      }
+    }
+
+    document.addEventListener('DOMContentLoaded', initPrices);
+  })();
+  </script>
 </body>
 </html>

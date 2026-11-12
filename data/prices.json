@@ -1,5 +1,5 @@
 {
-  "last_updated": "12.11.2026 20:12",
+  "last_updated": "12.11.2026 20:14",
   "market_note": "LME ve Serbest Piyasa Tavan Fiyatları",
   "metals": [
     {
@@ -31,9 +31,9 @@
       "name": "Kırkambar Bakır",
       "category": "bakir",
       "spec": "Kalorifer tesisatı, lehimli ve boru parçaları",
-      "min_price": 330,
-      "max_price": 345,
-      "calc_price": 335,
+      "min_price": 525,
+      "max_price": 525,
+      "calc_price": 525,
       "unit": "TL/Kg",
       "trend": "▲ +%1.1",
       "active": true
@@ -67,9 +67,9 @@
       "name": "Sarı Pirinç (Musluk/Vana)",
       "category": "sari",
       "spec": "Su sayaçları, musluk bataryaları, vana, sarı talaş",
-      "min_price": 235,
-      "max_price": 250,
-      "calc_price": 240,
+      "min_price": 300,
+      "max_price": 300,
+      "calc_price": 300,
       "unit": "TL/Kg",
       "trend": "▲ +%1.2",
       "active": true

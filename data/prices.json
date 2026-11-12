@@ -1,5 +1,5 @@
 {
-  "last_updated": "12.11.2026 20:20",
+  "last_updated": "12.11.2026 20:21",
   "market_note": "LME ve Serbest Piyasa Tavan Fiyatları",
   "metals": [
     {
@@ -91,9 +91,9 @@
       "name": "İnşaat Yıkım Demiri",
       "category": "demir",
       "spec": "Kentsel dönüşüm bina beton demiri, hasır çelik",
-      "min_price": 10.5,
+      "min_price": 13,
       "max_price": 11.8,
-      "calc_price": 11,
+      "calc_price": 13,
       "unit": "TL/Kg",
       "trend": "Stabil",
       "active": true
@@ -127,21 +127,21 @@
       "name": "Hurda Duvar Tipi Kombi",
       "category": "cihaz",
       "spec": "Bakır eşanjörlü hermetik/yoğuşmalı kombi gövdesi",
-      "min_price": 850,
+      "min_price": 2500,
       "max_price": 2500,
-      "calc_price": 1500,
+      "calc_price": 2500,
       "unit": "TL/Adet",
       "trend": "Özel Fiyat",
       "active": true
     },
     {
       "id": "klima-hurda",
-      "name": "Hurda Klima Dış Ünitesi",
+      "name": "Hurda Kombi",
       "category": "cihaz",
       "spec": "Bakır serpantinli ve kompresörlü klima motoru",
-      "min_price": 2500,
+      "min_price": 2200,
       "max_price": 3200,
-      "calc_price": 2500,
+      "calc_price": 2200,
       "unit": "TL/Adet",
       "trend": "Özel Fiyat",
       "active": true
